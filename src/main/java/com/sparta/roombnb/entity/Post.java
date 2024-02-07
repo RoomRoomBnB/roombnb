@@ -1,5 +1,6 @@
 package com.sparta.roombnb.entity;
 
+import com.sparta.roombnb.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,14 +23,22 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String contents;
     @Column(nullable = false)
-    private String room;
+    private String room_name;
     @Column(nullable = false)
-    private Long star;
+    private Long rating;
     @Column(nullable = false)
     private String username;
 
 //    @OneToMany
 //    @JoinColumn(name="post_id")
 //    private  List<Comment> commentList = new ArrayList<>();
+
+    public Post(PostRequestDto requestDto,User user,Room room){
+        this.title = requestDto.getTitle();
+        this.contents = requestDto.getContents();
+        this.room_name = room.getName();
+        this.rating = requestDto.getRating();
+        this.username = user.getUsername();
+    }
 
 }

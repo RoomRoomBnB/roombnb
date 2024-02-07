@@ -1,5 +1,6 @@
 package com.sparta.roombnb.dto;
 
+import com.sparta.roombnb.entity.Post;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +10,19 @@ import java.time.LocalDateTime;
 @Setter
 public class PostResponseDto {
     private String title;
-    private String room;
-    private Long star;
+    private String room_name;
+    private Long rating;
     private String contents;
     private String username;
     private LocalDateTime createdAt;
+
+    public PostResponseDto(Post post) {
+        this.title = post.getTitle();
+        this.room_name = post.getRoom_name();
+        this.rating = post.getRating();
+        this.contents = post.getContents();
+        this.username = post.getUsername();
+        this.createdAt = post.getCreatedAt();
+    }
     //private List<Comment> commentList;
 }

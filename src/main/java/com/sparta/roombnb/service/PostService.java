@@ -84,7 +84,7 @@ public class PostService {
         }
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
-            return badRequest("해당 포스트를 수정하실 권한이 없습니다.");
+            return badRequest("해당 포스트를 삭제하실 권한이 없습니다.");
         }
         return success("포스트 삭제에 성공하였습니다.",post);
     }

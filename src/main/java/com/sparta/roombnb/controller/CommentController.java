@@ -3,6 +3,7 @@ package com.sparta.roombnb.controller;
 import com.sparta.roombnb.dto.CommentRequestDto;
 import com.sparta.roombnb.dto.CommentResponseDto;
 import com.sparta.roombnb.dto.CommonResponse;
+import com.sparta.roombnb.security.UserDetailsImpl;
 import com.sparta.roombnb.security.UserDetailslmpl;
 import com.sparta.roombnb.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class CommentController {
     @PostMapping("")
     public CommonResponse<CommentResponseDto> createComment(
         @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal
-    UserDetailslmpl userDetails) {
+    UserDetailsImpl userDetails) {
 
         CommentResponseDto responseDto = commentService.createComment(requestDto,
             userDetails.getUser());
@@ -44,7 +45,7 @@ public class CommentController {
     @PatchMapping("/{commentId}")
     public CommonResponse<CommentResponseDto> updateComment(@PathVariable Long commentId,
         @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal
-    UserDetailslmpl userDetails) {
+                                                                UserDetailsImpl userDetails) {
 
         CommentResponseDto responseDto = commentService.updateComment(commentId, requestDto,
             userDetails.getUser());
@@ -61,7 +62,7 @@ public class CommentController {
     @DeleteMapping("/{commentId}")
     public CommonResponse<CommentResponseDto> deleteComment(
         @PathVariable Long commentId, @AuthenticationPrincipal
-    UserDetailslmpl userDetails) {
+    UserDetailsImpl userDetails) {
         commentService.deleteComment(commentId, userDetails.getUser());
         CommonResponse<CommentResponseDto> response = CommonResponse.<CommentResponseDto>builder()
             .statusCode(200)

@@ -66,7 +66,7 @@ public class MyPageController {
         try {
             myPageService.updatePassword(requestDto, userDetails.getUser());
             return ResponseEntity.ok()
-                    .body(new CommonResponse<>(HttpStatus.OK.value(), "댓글이 수정되었습니다."));
+                    .body(new CommonResponse<>(HttpStatus.OK.value(), "비밀번호가 수정되었습니다."));
 
         } catch (RejectedExecutionException ex) {
             return ResponseEntity.badRequest()

@@ -3,11 +3,12 @@ package com.sparta.roombnb.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
+@RequiredArgsConstructor
 public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +26,5 @@ public class Bookmark {
         this.user = user;
         this.post = post;
     }
-
-
 
 }

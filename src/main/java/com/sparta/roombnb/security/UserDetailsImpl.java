@@ -1,5 +1,6 @@
 package com.sparta.roombnb.security;
 
+
 import com.sparta.roombnb.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

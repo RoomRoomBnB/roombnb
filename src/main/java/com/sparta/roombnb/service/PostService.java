@@ -4,6 +4,7 @@ import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.dto.PostRequestDto;
 import com.sparta.roombnb.dto.PostResponseDto;
 import com.sparta.roombnb.entity.Post;
+import com.sparta.roombnb.entity.Room;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.UserRepository;
@@ -57,6 +58,7 @@ public class PostService {
     }
 
 
+    @Transactional
     public ResponseEntity<CommonResponse<?>> updatePost(Long postId, PostRequestDto requestDto, Long userId) {
         Optional<Post> post = postRepository.findById(postId); // Optional이 협업에서 자주쓰인다!
         if (post.isEmpty()) {
@@ -74,6 +76,7 @@ public class PostService {
         return success("포스트 수정에 성공하셨습니다.", new PostResponseDto(post.get()));
     }
 
+    @Transactional
     public ResponseEntity<CommonResponse<?>> deletePost(Long postId, Long userId) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isEmpty()) {

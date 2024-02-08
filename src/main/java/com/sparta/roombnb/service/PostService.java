@@ -26,7 +26,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final RoomRepository roomRepository;
-
+    //게시글 작성 기능 - 숙소 정보를 가져와서 대조함
     @Transactional
     public ResponseEntity<CommonResponse<?>> createPost(PostRequestDto requestDto, User user) {
         Optional<Room> room = roomRepository.findById(requestDto.getRoom_id());
@@ -38,7 +38,7 @@ public class PostService {
         return success("게시글 작성에 성공하셨습니다.", new PostResponseDto(post));
     }
 
-
+    //게시글 전체 조회 기능 - 작성일 기준
     public ResponseEntity<CommonResponse<?>> getAllPost() {
         Optional<List<Post>> postList = postRepository.findAllByOrderByCreatedAtDesc();
         if (postList.get().isEmpty()) {
@@ -46,7 +46,7 @@ public class PostService {
         }
         return success("전체 게시글 조회에 성공하셨습니다.", postList.get().stream().map(PostResponseDto::new).toList());
     }
-
+    //게시글 전체 조회 기능 - 별점 높은 순
     public ResponseEntity<CommonResponse<?>> getAllPostOrderRating() {
         Optional<List<Post>> postList = postRepository.findAllByOrderByRatingDesc();
         if (postList.get().isEmpty()) {
@@ -56,6 +56,7 @@ public class PostService {
     }
 
 
+    //특정 게시글 조회 기능
     public ResponseEntity<CommonResponse<?>> getPost(Long postId) {
         Optional<Post> post = postRepository.findById(postId);
         //post.ifPresent(post1 -> badRequest("해당하는 포스트가 없습니다."));
@@ -65,10 +66,10 @@ public class PostService {
         return success("게시글 조회에 성공하셨습니다.", new PostResponseDto(post.get()));
     }
 
-
+    //게시글 수정 기능 - 먼저 입력한 포스트가 있는지 검사 후 포스트 수정 권한을 검사 마지막으로 입력한 숙소의 존재유무를 검사
     @Transactional
     public ResponseEntity<CommonResponse<?>> updatePost(Long postId, PostRequestDto requestDto, Long userId) {
-        Optional<Post> post = postRepository.findById(postId); // Optional이 협업에서 자주쓰인다!
+        Optional<Post> post = postRepository.findById(postId);
         if (post.isEmpty()) {
             return badRequest("해당하는 포스트가 없습니다.");
         }
@@ -83,7 +84,7 @@ public class PostService {
         post.get().update(requestDto, room.get());
         return success("포스트 수정에 성공하셨습니다.", new PostResponseDto(post.get()));
     }
-
+    //게시글 삭제 기능 - 입력한 포스트가 있는 지 검사 후 포스트 삭제 권한을 검사
     @Transactional
     public ResponseEntity<CommonResponse<?>> deletePost(Long postId, Long userId) {
         Optional<Post> post = postRepository.findById(postId);

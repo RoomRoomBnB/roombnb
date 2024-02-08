@@ -7,8 +7,6 @@ import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.UserRepository;
-import com.sparta.roombnb.security.UserDetailsImpl;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.sparta.roombnb.service.StatusCheck.*;
+
 
 @Service
 @RequiredArgsConstructor
@@ -27,81 +28,63 @@ public class PostService {
 
     @Transactional
     public ResponseEntity<CommonResponse<?>> createPost(PostRequestDto requestDto, User user) {
-        Room room = roomRepository.findById(requestDto.getRoom_id()).orElse(null);
-        if (room == null) {
+        Optional<Room> room = roomRepository.findById(requestDto.getRoom_id());
+        if (room.isEmpty()) {
             return badRequest("해당하는 숙소정보가 없습니다.");
         }
-        Post post = new Post(requestDto, user, room);
+        Post post = new Post(requestDto, user, room.get());
         postRepository.save(post);
-        return success("게시글 작성에 성공하셨습니다.",post);
+        return success("게시글 작성에 성공하셨습니다.", new PostResponseDto(post));
     }
 
 
     public ResponseEntity<CommonResponse<?>> getAllPost() {
-        List<PostResponseDto> postList = postRepository.findAllByOrderByCreatedAtDesc();
-        if (postList == null) {
+        Optional<List<PostResponseDto>> postList = postRepository.findAllByOrderByCreatedAtDesc();
+        if (postList.isEmpty()) {
             return badRequest("현재 작성된 포스트가 없습니다.");
         }
-        return ResponseEntity.ok(CommonResponse.<List<PostResponseDto>>builder()
-                .statusCode(HttpStatus.OK.value())
-                .msg("전체 게시글 조회")
-                .data(postList)
-                .build());
+        return success("전체 게시글 조회에 성공하셨습니다.", postList);
     }
 
 
     public ResponseEntity<CommonResponse<?>> getPost(Long postId) {
-        Post post = postRepository.findById(postId).orElse(null);
-        if (post == null) {
+        Optional<Post> post = postRepository.findById(postId);
+        //post.ifPresent(post1 -> badRequest("해당하는 포스트가 없습니다."));
+        if (post.isEmpty()) {
             return badRequest("해당하는 포스트가 없습니다.");
         }
-        return success("게시글 조회에 성공하셨습니다.",post);
+        return success("게시글 조회에 성공하셨습니다.", new PostResponseDto(post.get()));
     }
-
 
 
     public ResponseEntity<CommonResponse<?>> updatePost(Long postId, PostRequestDto requestDto, Long userId) {
-        Post post = postRepository.findById(postId).orElse(null);
-        if (post == null) {
+        Optional<Post> post = postRepository.findById(postId); // Optional이 협업에서 자주쓰인다!
+        if (post.isEmpty()) {
             return badRequest("해당하는 포스트가 없습니다.");
         }
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            return badRequest("해당 포스트를 수정하실 권한이 없습니다.");
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            return forBidden("해당 포스트를 수정할 권한이 없습니다.");
         }
-        Room room = roomRepository.findById(requestDto.getRoom_id()).orElse(null);
-        if (room == null) {
+        Optional<Room> room = roomRepository.findById(requestDto.getRoom_id());
+        if (room.isEmpty()) {
             return badRequest("해당하는 숙소정보가 없습니다.");
         }
-        post.update(requestDto, room);
-        return success("포스트 수정에 성공하셨습니다.",post);
+        post.update(requestDto, room.get());
+        return success("포스트 수정에 성공하셨습니다.", new PostResponseDto(post.get()));
     }
 
-    public ResponseEntity<CommonResponse<?>> deletePost(Long postId,Long userId) {
-        Post post = postRepository.findById(postId).orElse(null);
-        if (post == null) {
+    public ResponseEntity<CommonResponse<?>> deletePost(Long postId, Long userId) {
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isEmpty()) {
             return badRequest("해당하는 포스트가 없습니다.");
         }
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            return badRequest("해당 포스트를 삭제하실 권한이 없습니다.");
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            return forBidden("해당 포스트를 삭제할 권한이 없습니다.");
         }
-        return success("포스트 삭제에 성공하였습니다.",post);
-    }
-    private ResponseEntity<CommonResponse<?>> success(String msg,Post post){
-        return ResponseEntity.ok(CommonResponse.<PostResponseDto>builder()
-                .statusCode(HttpStatus.OK.value())
-                .msg(msg)
-                .data(new PostResponseDto(post))
-                .build());
-    }
-
-    private ResponseEntity<CommonResponse<?>> badRequest(String msg) {
-        return ResponseEntity.badRequest().body(CommonResponse.<PostResponseDto>builder()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .msg(msg)
-                .data(null)
-                .build());
+        postRepository.delete(post.get());
+        return success("포스트 삭제에 성공하셨습니다.","");
     }
 
 }

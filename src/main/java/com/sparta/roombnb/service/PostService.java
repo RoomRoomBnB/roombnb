@@ -7,6 +7,7 @@ import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.Room;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.PostRepository;
+import com.sparta.roombnb.repository.RoomRepository;
 import com.sparta.roombnb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,11 +40,19 @@ public class PostService {
 
 
     public ResponseEntity<CommonResponse<?>> getAllPost() {
-        Optional<List<PostResponseDto>> postList = postRepository.findAllByOrderByCreatedAtDesc();
-        if (postList.isEmpty()) {
+        Optional<List<Post>> postList = postRepository.findAllByOrderByCreatedAtDesc();
+        if (postList.get().isEmpty()) {
             return badRequest("현재 작성된 포스트가 없습니다.");
         }
-        return success("전체 게시글 조회에 성공하셨습니다.", postList);
+        return success("전체 게시글 조회에 성공하셨습니다.", postList.get().stream().map(PostResponseDto::new).toList());
+    }
+
+    public ResponseEntity<CommonResponse<?>> getAllPostOrderRating() {
+        Optional<List<Post>> postList = postRepository.findAllByOrderByRatingDesc();
+        if (postList.get().isEmpty()) {
+            return badRequest("현재 작성된 포스트가 없습니다.");
+        }
+        return success("별점순 게시글 조회에 성공하셨습니다.", postList.get().stream().map(PostResponseDto::new).toList());
     }
 
 
@@ -71,7 +80,7 @@ public class PostService {
         if (room.isEmpty()) {
             return badRequest("해당하는 숙소정보가 없습니다.");
         }
-        post.update(requestDto, room.get());
+        post.get().update(requestDto, room.get());
         return success("포스트 수정에 성공하셨습니다.", new PostResponseDto(post.get()));
     }
 

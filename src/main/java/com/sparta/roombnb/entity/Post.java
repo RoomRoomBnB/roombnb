@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -41,7 +42,7 @@ public class Post extends Timestamped {
         this.username = user.getUsername();
     }
 
-    public void update(PostRequestDto requestDto, Room room) {
+    public void update(PostRequestDto requestDto,Room room) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
         this.room_name = room.getName();

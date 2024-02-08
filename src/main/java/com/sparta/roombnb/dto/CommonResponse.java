@@ -1,10 +1,11 @@
 package com.sparta.roombnb.dto;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
 
 @Getter
 @Setter
@@ -16,6 +17,12 @@ public class CommonResponse<T> {
     private Integer statusCode;
     private String msg;
     private T data;
+
+
+    public CommonResponse(Integer statusCode, String msg){
+        this.statusCode = statusCode;
+        this.msg = msg;
+    }
 
 
 }

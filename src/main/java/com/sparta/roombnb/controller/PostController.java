@@ -42,7 +42,7 @@ public class PostController {
 
     @PatchMapping("/posts/{post_id}")
     public ResponseEntity<CommonResponse<?>> updatePost(@PathVariable Long post_id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-       return postService.updatePost(post_id, requestDto, userDetails.getUser().getId());
+        return postService.updatePost(post_id, requestDto, userDetails.getUser().getId());
     }
 
     @DeleteMapping("/posts/{post_id}")

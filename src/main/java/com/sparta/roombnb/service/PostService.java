@@ -9,7 +9,6 @@ import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,7 +86,7 @@ public class PostService {
             return forBidden("해당 포스트를 삭제할 권한이 없습니다.");
         }
         postRepository.delete(post.get());
-        return success("포스트 삭제에 성공하셨습니다.","");
+        return success("포스트 삭제에 성공하셨습니다.", "");
     }
 
 }

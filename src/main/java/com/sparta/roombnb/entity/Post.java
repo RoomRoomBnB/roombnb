@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @Setter
 @NoArgsConstructor
 @Table(name = "post")
-public class Post extends Timestamped{
+public class Post extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,7 +33,7 @@ public class Post extends Timestamped{
 //    @JoinColumn(name="post_id")
 //    private  List<Comment> commentList = new ArrayList<>();
 
-    public Post(PostRequestDto requestDto,User user,Room room){
+    public Post(PostRequestDto requestDto, User user, Room room) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
         this.room_name = room.getName();
@@ -41,7 +41,7 @@ public class Post extends Timestamped{
         this.username = user.getUsername();
     }
 
-    public void update(PostRequestDto requestDto,Room room) {
+    public void update(PostRequestDto requestDto, Room room) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
         this.room_name = room.getName();

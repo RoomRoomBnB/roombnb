@@ -26,50 +26,27 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public ResponseEntity<CommonResponse<PostResponseDto>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        PostResponseDto responseDto = postService.createPost(requestDto,userDetails.getUser(),requestDto);
-        return ResponseEntity.ok(CommonResponse.<PostResponseDto>builder()
-                .statusCode(HttpStatus.OK.value())
-                .msg("게시글 작성에 성공하셨습니다.")
-                .data(responseDto)
-                .build());
+    public ResponseEntity<CommonResponse<?>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.createPost(requestDto, userDetails.getUser(), requestDto);
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<CommonResponse<List<PostResponseDto>>> getAllPost(){
-        List<PostResponseDto> responseDto = postService.getAllPost();
-        return ResponseEntity.ok(CommonResponse.<List<PostResponseDto>>builder()
-                .statusCode(HttpStatus.OK.value())
-                .msg("전체 게시글 조회")
-                .data(responseDto)
-                .build());
+    public ResponseEntity<CommonResponse<?>> getAllPost() {
+        return postService.getAllPost();
     }
 
     @GetMapping("/posts/{post_id}")
-    public ResponseEntity<CommonResponse<PostResponseDto>> getPost(@PathVariable Long post_id,@AuthenticationPrincipal UserDetailsImpl userDetails){
-        PostResponseDto responseDto = postService.getPost(post_id,userDetails.getUser());
-        return ResponseEntity.ok(CommonResponse.<PostResponseDto>builder()
-                .statusCode(HttpStatus.OK.value())
-                .msg("게시글 조회")
-                .data(responseDto)
-                .build());
+    public ResponseEntity<CommonResponse<?>> getPost(@PathVariable Long post_id) {
+        return postService.getPost(post_id);
     }
+
     @PatchMapping("/posts/{post_id}")
-    public ResponseEntity<CommonResponse<PostResponseDto>> updatePost(@PathVariable Long post_id,@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        PostResponseDto responseDto = postService.updatePost(post_id,requestDto,userDetails.getUser());
-        return ResponseEntity.ok(CommonResponse.<PostResponseDto>builder()
-                .statusCode(HttpStatus.OK.value())
-                .msg("게시글을 삭제하셨습니다.")
-                .data(responseDto)
-                .build());
+    public ResponseEntity<CommonResponse<?>> updatePost(@PathVariable Long post_id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+       return postService.updatePost(post_id, requestDto, userDetails.getUser().getId());
     }
 
     @DeleteMapping("/posts/{post_id}")
-    public ResponseEntity<CommonResponse<?>> deletePost(@PathVariable Long post_id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        postService.deletePost(post_id,userDetails.getUser());
-        return ResponseEntity.ok(CommonResponse.builder()
-                .statusCode(HttpStatus.OK.value())
-                .msg("게시글을 삭제하셨습니다.")
-                .build());
+    public ResponseEntity<CommonResponse<?>> deletePost(@PathVariable Long post_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.deletePost(post_id, userDetails.getUser().getId());
     }
 }

@@ -3,6 +3,7 @@ package com.sparta.roombnb.security;
 import com.sparta.roombnb.entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,19 +20,21 @@ public class CustomUserDetails implements UserDetails {
     }
     @Override
     public String getPassword() {
-
         return user.getPassword();
     }
-
     @Override
     public String getUsername() {
-
         return user.getUsername();
     }
 
+    public String getPhoto() {
+        return user.getPhoto();
+    }
+    public User getUser(){
+        return user;
+    }
     @Override
     public boolean isAccountNonExpired() {
-
         return true;
     }
 
@@ -43,13 +46,11 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-
         return true;
     }
 
     @Override
     public boolean isEnabled() {
-
         return true;
     }
 }

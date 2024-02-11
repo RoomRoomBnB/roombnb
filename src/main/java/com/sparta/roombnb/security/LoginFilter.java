@@ -21,6 +21,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
     public LoginFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        //setFilterProcessesUrl();
     }
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -54,7 +55,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
-        String token = jwtUtil.createJwt(username, role, 60*60*10L);
+        String token = jwtUtil.createJwt(customUserDetails.getUser());
         response.addHeader("Authorization", "Bearer " + token);
         // 로그인 성공 응답 본문 작성
         response.setContentType("application/json;charset=UTF-8");
@@ -64,4 +65,5 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter{
         out.flush();
     }
 }
+
 

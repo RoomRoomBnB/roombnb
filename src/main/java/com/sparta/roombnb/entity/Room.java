@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -17,4 +20,8 @@ public class Room {
     private Long id;
     @Column(nullable = false)
     private String name;
+
+    @OneToMany
+    @JoinColumn(name="room_id")
+    private List<Post> PostList = new ArrayList<>();
 }

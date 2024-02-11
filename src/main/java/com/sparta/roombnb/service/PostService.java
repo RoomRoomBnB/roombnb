@@ -3,9 +3,11 @@ package com.sparta.roombnb.service;
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.dto.PostRequestDto;
 import com.sparta.roombnb.dto.PostResponseDto;
+import com.sparta.roombnb.entity.Bookmark;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.Room;
 import com.sparta.roombnb.entity.User;
+import com.sparta.roombnb.repository.BookmarkRepository;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.RoomRepository;
 import com.sparta.roombnb.repository.UserRepository;
@@ -26,6 +28,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final RoomRepository roomRepository;
+
     //게시글 작성 기능 - 숙소 정보를 가져와서 대조함
     @Transactional
     public ResponseEntity<CommonResponse<?>> createPost(PostRequestDto requestDto, User user) {
@@ -46,6 +49,7 @@ public class PostService {
         }
         return success("전체 게시글 조회에 성공하셨습니다.", postList.get().stream().map(PostResponseDto::new).toList());
     }
+
     //게시글 전체 조회 기능 - 별점 높은 순
     public ResponseEntity<CommonResponse<?>> getAllPostOrderRating() {
         Optional<List<Post>> postList = postRepository.findAllByOrderByRatingDesc();
@@ -84,6 +88,7 @@ public class PostService {
         post.get().update(requestDto, room.get());
         return success("포스트 수정에 성공하셨습니다.", new PostResponseDto(post.get()));
     }
+
     //게시글 삭제 기능 - 입력한 포스트가 있는 지 검사 후 포스트 삭제 권한을 검사
     @Transactional
     public ResponseEntity<CommonResponse<?>> deletePost(Long postId, Long userId) {

@@ -3,8 +3,10 @@ package com.sparta.roombnb.service;
 import com.sparta.roombnb.dto.BookmarkRequestDto;
 import com.sparta.roombnb.dto.BookmarkResponseDto;
 import com.sparta.roombnb.entity.Bookmark;
+import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.BookmarkRepository;
+import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.concurrent.RejectedExecutionException;
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     public List<BookmarkResponseDto> createBookmark(BookmarkRequestDto request, User user) {
         Post post = findPost(request.getPostId());

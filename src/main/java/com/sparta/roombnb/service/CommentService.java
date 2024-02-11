@@ -4,6 +4,7 @@ package com.sparta.roombnb.service;
 import com.sparta.roombnb.dto.CommentRequestDto;
 import com.sparta.roombnb.dto.CommentResponseDto;
 import com.sparta.roombnb.entity.Comment;
+import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.CommentRepository;
 import jakarta.transaction.Transactional;

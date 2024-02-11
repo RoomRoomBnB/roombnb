@@ -18,10 +18,10 @@ public class PostResponseDto {
 
     public PostResponseDto(Post post) {
         this.title = post.getTitle();
-        this.room_name = post.getRoom_name();
+        this.room_name = post.getRoom().getName();
         this.rating = post.getRating();
         this.contents = post.getContents();
-        this.username = post.getUsername();
+        this.username = post.getUser().getUsername();
         this.createdAt = post.getCreatedAt();
     }
     //private List<Comment> commentList;

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommentResponseDto extends CommonResponse {
+public class CommentResponseDto {
 
     private Long id;
     private String content;

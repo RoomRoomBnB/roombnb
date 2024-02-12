@@ -99,4 +99,10 @@ public class PostService {
         return success("포스트 삭제에 성공하셨습니다.", "");
     }
 
+
+    //commentService 에서 Post 가져올때 사용
+    public Post getpost(Long postId) {
+        return postRepository.findById(postId)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
+    }
 }

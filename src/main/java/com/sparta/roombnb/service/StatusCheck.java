@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public class StatusCheck {
     //기능이 성공적으로 수행되었을 때 성공 메시지,상태코드,성공한 데이터를 출력합니다.
-    static ResponseEntity<CommonResponse<?>> success(String msg, Object object) {
+    public static ResponseEntity<CommonResponse<?>> success(String msg, Object object) {
         return ResponseEntity.ok(CommonResponse.builder()
                 .statusCode(HttpStatus.OK.value())
                 .msg(msg)
@@ -22,9 +22,10 @@ public class StatusCheck {
                 .data(null)
                 .build());
     }
+
     //요청에 필요한 권한이 없을 때 필요한 권한에 대한 메시지와 함께 상태 코드를 보냅니다.
     static ResponseEntity<CommonResponse<?>> forBidden(String msg) {
-        return ResponseEntity.status(403).body(CommonResponse.<PostResponseDto>builder()
+        return org.springframework.http.ResponseEntity.status(403).body(CommonResponse.<PostResponseDto>builder()
                 .statusCode(HttpStatus.FORBIDDEN.value())
                 .msg(msg)
                 .data(null)

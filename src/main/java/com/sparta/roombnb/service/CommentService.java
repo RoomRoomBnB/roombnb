@@ -25,7 +25,7 @@ public class CommentService {
 
         Comment comment = new Comment(requestDto);
         comment.setUser(user);
-        comment.setPost(todo);
+        comment.setPost(post);
 
         commentRepository.save(comment);
 

@@ -16,11 +16,10 @@ public class CommonResponse<T> {
     private String msg;
     private T data;
 
-
     public CommonResponse(Integer statusCode, String msg){
         this.statusCode = statusCode;
         this.msg = msg;
     }
 
-
 }
+

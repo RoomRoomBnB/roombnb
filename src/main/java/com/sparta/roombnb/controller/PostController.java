@@ -2,6 +2,7 @@ package com.sparta.roombnb.controller;
 
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.dto.PostRequestDto;
+import com.sparta.roombnb.security.CustomUserDetails;
 import com.sparta.roombnb.security.UserDetailsImpl;
 import com.sparta.roombnb.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,13 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostService postService;
     //게시글 작성 기능
+    @GetMapping("/testtest")
+    public void testtest(@AuthenticationPrincipal CustomUserDetails userDetails){
+        System.out.println(userDetails.getUser().getPhoto());
+    }
     @PostMapping("/posts")
-    public ResponseEntity<CommonResponse<?>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.createPost(requestDto, userDetails.getUser(), requestDto);
+    public ResponseEntity<CommonResponse<?>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return postService.createPost(requestDto, userDetails.getUser());
     }
     //게시글 전체 조회 기능 - 작성일 기준
     @GetMapping("/posts")
@@ -38,12 +43,12 @@ public class PostController {
     }
     //게시글 수정 기능 - 자신이 쓴 게시글만 가능
     @PatchMapping("/posts/{post_id}")
-    public ResponseEntity<CommonResponse<?>> updatePost(@PathVariable Long post_id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<CommonResponse<?>> updatePost(@PathVariable Long post_id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal CustomUserDetails userDetails) {
         return postService.updatePost(post_id, requestDto, userDetails.getUser().getId());
     }
     //게시글 삭제 기능 - 자신이 쓴 게시글만 가능
     @DeleteMapping("/posts/{post_id}")
-    public ResponseEntity<CommonResponse<?>> deletePost(@PathVariable Long post_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<CommonResponse<?>> deletePost(@PathVariable Long post_id,@AuthenticationPrincipal CustomUserDetails userDetails) {
         return postService.deletePost(post_id, userDetails.getUser().getId());
     }
 }

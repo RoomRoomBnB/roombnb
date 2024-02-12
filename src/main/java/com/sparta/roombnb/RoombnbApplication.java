@@ -11,6 +11,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class RoombnbApplication {
     public static void main(String[] args) {
         SpringApplication.run(RoombnbApplication.class, args);
+        System.out.println();
+
+
     }
 
 }

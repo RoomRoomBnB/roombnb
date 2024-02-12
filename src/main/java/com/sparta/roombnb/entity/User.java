@@ -9,16 +9,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Table(name="user")
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class User {
 
     @Id
@@ -49,3 +52,5 @@ public class User {
         this.role = requestDto.getRole();
     }
 }
+
+

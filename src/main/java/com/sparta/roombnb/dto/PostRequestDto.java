@@ -9,5 +9,5 @@ public class PostRequestDto {
     private String title;
     private String contents;
     private Long rating;
-    private Long room_id;
+    private String contentId;
 }

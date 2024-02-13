@@ -46,7 +46,7 @@ public class RoomService {
         return fromJSONtoRoom(responseEntity.getBody());
     }
 
-    public List<RoomDto> getRoom2(){
+    public String findRoom(String contentId){
         URI uri = UriComponentsBuilder
                 .fromUriString("http://apis.data.go.kr/B551011/KorService1")
                 .path("/detailCommon1")
@@ -54,11 +54,7 @@ public class RoomService {
                 .queryParam("MobileOS","ETC")
                 .queryParam("MobileApp","RoomBnB")
                 .queryParam("_type","json")
-                .queryParam("contentId","2465071")
-                .queryParam("defaultYN","Y")
-                .queryParam("firstImageYN","Y")
-                .queryParam("addrinfoYN","Y")
-                .queryParam("areacodeYN","Y")
+                .queryParam("contentId",contentId)
                 .encode()
                 .build()
                 .toUri();
@@ -66,8 +62,33 @@ public class RoomService {
                 .get(uri)
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
-        System.out.println(responseEntity.getBody());
-        return fromJSONtoRoom(responseEntity.getBody());
+        JSONObject jsonObject = new JSONObject(responseEntity);
+        return jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONObject("contentId").toString();
+    }
+
+    public RoomDto searchRoom(String contentId){
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://apis.data.go.kr/B551011/KorService1")
+                .path("/detailCommon1")
+                .queryParam("serviceKey", "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
+                .queryParam("MobileOS","ETC")
+                .queryParam("MobileApp","RoomBnB")
+                .queryParam("_type","json")
+                .queryParam("contentId",contentId)
+                .queryParam("defaultYN","y")
+                .queryParam("firstImageYN","Y")
+                .queryParam("areacodeYN","Y")
+                .queryParam("addrinfoYN","Y")
+                .queryParam("overviewYN","Y")
+                .encode()
+                .build()
+                .toUri();
+        RequestEntity<Void> requestEntity = RequestEntity
+                .get(uri)
+                .build();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+        JSONObject jsonObject = new JSONObject(responseEntity);
+        return fromJSONtoRoom(responseEntity.getBody()).get(0);
     }
 
     public List<RoomDto> fromJSONtoRoom(String responseEntity) {

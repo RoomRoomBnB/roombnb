@@ -19,9 +19,6 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String contentId;
 
-    @OneToMany
-    @JoinColumn(name = "room_id")
-    private List<Post> PostList = new ArrayList<>();
 }

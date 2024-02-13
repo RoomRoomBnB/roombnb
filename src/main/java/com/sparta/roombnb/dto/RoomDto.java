@@ -16,6 +16,7 @@ public class RoomDto {
     private String title;
     private String img;
     private String tel;
+    private String contentId;
 
     public RoomDto(JSONObject jsonObject){
         this.addr = jsonObject.getString("addr1");
@@ -24,6 +25,7 @@ public class RoomDto {
         this.title =jsonObject.getString("title");
         this.img = jsonObject.getString("firstimage");
         this.tel = jsonObject.getString("tel");
+        this.contentId = jsonObject.getString("contentId"); //I소문자일수도 있음
     }
 
 }

@@ -7,6 +7,7 @@ import com.sparta.roombnb.entity.Comment;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.CommentRepository;
+import com.sparta.roombnb.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import java.util.concurrent.RejectedExecutionException;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +19,16 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostService postService;
+    private final PostRepository postRepository;
 
+    @Transactional
     public CommentResponseDto createComment(CommentRequestDto requestDto, User user) {
-        Post post = postService.getpost(requestDto.getPostId());
+        Post post = postRepository.findById(requestDto.getPostId()).orElseThrow();
         //postId로 post 가져오기
 
         Comment comment = new Comment(requestDto);
         comment.setUser(user);
-        comment.setPost(todo);
+        comment.setPost(post);
 
         commentRepository.save(comment);
 

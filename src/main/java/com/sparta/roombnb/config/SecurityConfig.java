@@ -3,6 +3,7 @@ package com.sparta.roombnb.config;
 import com.sparta.roombnb.jwt.JwtFilter;
 import com.sparta.roombnb.jwt.JwtUtil;
 import com.sparta.roombnb.security.LoginFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,14 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtUtil jwtUtil;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JwtUtil jwtUtil) {
-        this.authenticationConfiguration = authenticationConfiguration;
-        this.jwtUtil = jwtUtil;
-    }
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
 

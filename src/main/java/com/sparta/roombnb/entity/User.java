@@ -9,15 +9,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@Table(name="user")
+@Table(name = "user")
 @Entity
 @Getter
 @Setter
@@ -40,7 +42,10 @@ public class User {
     private String photo;
     @Column(name = "role", nullable = false)
     private String role;
-
+    @OneToMany(mappedBy = "user")
+    private List<Bookmark> bookmark = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
 
 
     public User(UserSignupRequestDto requestDto) {

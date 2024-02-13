@@ -2,6 +2,7 @@ package com.sparta.roombnb.controller;
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.dto.MyPageRequestDto;
 import com.sparta.roombnb.dto.MyPageResponseDto;
+import com.sparta.roombnb.security.CustomUserDetails;
 import com.sparta.roombnb.security.UserDetailsImpl;
 import com.sparta.roombnb.service.MyPageService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,11 @@ import java.util.concurrent.RejectedExecutionException;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MyPageController {
-    private MyPageService myPageService;
+    private final MyPageService myPageService;
 
     @GetMapping("/mypage")
     public ResponseEntity<CommonResponse<MyPageResponseDto>> getMyPage(
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         try {
             MyPageResponseDto response = myPageService.getMyPage(userDetails.getUser());
@@ -43,7 +44,7 @@ public class MyPageController {
     @PatchMapping("/mypage")
     public ResponseEntity<CommonResponse<MyPageResponseDto>> updateMyPage(
             @RequestBody MyPageRequestDto requestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         try {
             MyPageResponseDto response = myPageService.updateMyPage(requestDto, userDetails.getUser());
@@ -62,7 +63,7 @@ public class MyPageController {
     @PatchMapping("/password-patch")
     public ResponseEntity<CommonResponse<?>> updatePassword(
             @RequestBody MyPageRequestDto requestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
         try {
             myPageService.updatePassword(requestDto, userDetails.getUser());
             return ResponseEntity.ok()

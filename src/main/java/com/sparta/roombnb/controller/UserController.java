@@ -36,14 +36,3 @@ public class UserController {
     }
 }
 
-//    @PostMapping("users/login")
-//    public ResponseEntity<CommonResponse<LoginResponseDto>> singUp(@RequestBody LoginRequestDto requestDto) {
-//        LoginResponseDto loginResponseDto= userService.login(requestDto);
-//        CommonResponse<LoginResponseDto> response = CommonResponse.<LoginResponseDto>builder()
-//            .statusCode(HttpStatus.OK.value())
-//            .msg("로그인 성공")
-//            .data(loginResponseDto)
-//            .build();
-//        return ResponseEntity.ok(response);
-//    }
-

@@ -36,7 +36,9 @@ public class Post extends Timestamped {
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
 
+
     @OneToMany(mappedBy = "post")
+
     private List<Bookmark> BookmarkList = new ArrayList<>();
 
     public Post(PostRequestDto requestDto, User user, Room room) {

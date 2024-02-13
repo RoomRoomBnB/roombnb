@@ -18,5 +18,4 @@ public class UserSignupRequestDto {
     private String email;
     private String introduction;
     private String photo;
-    private String role;
 }

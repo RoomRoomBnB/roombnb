@@ -8,6 +8,7 @@ import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.BookmarkRepository;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,8 @@ public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final PostRepository postRepository;
 
+
+    @Transactional
     public List<BookmarkResponseDto> createBookmark(BookmarkRequestDto request, User user) {
         Post post = findPost(request.getPostId());
         bookmarkRepository.save(new Bookmark(user, post));
@@ -30,9 +33,9 @@ public class BookmarkService {
         return findBookmarkByUser(user).stream().map(BookmarkResponseDto::new).toList();
     }
 
-    public void deleteBookmark(BookmarkRequestDto request) {
-        Bookmark bookmark = findBookmarkByPostId(request.getPostId());
-        bookmarkRepository.delete(bookmark);
+    @Transactional
+    public void deleteBookmark(BookmarkRequestDto request,User user) {
+        bookmarkRepository.deleteByUserIdAndPostId(user.getId(), request.getPostId());
     }
 
 

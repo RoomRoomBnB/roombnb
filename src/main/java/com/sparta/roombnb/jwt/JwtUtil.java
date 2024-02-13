@@ -6,12 +6,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import java.security.Key;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.security.Key;
+import java.util.Date;
 
 @Component
 public class JwtUtil {
@@ -43,6 +42,7 @@ public class JwtUtil {
         claims.put("introduction",user.getIntroduction());
         claims.put("photo", user.getPhoto());
         claims.put("role", user.getRole());
+        claims.put("password",user.getPassword());
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -59,6 +59,7 @@ public class JwtUtil {
         user.setIntroduction(claims.get("introduction", String.class));
         user.setPhoto(claims.get("photo", String.class));
         user.setRole(claims.get("role", String.class));
+        user.setPassword(claims.get("password",String.class));
         return user;
     }
 }

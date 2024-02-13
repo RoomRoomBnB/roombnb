@@ -4,6 +4,7 @@ import com.sparta.roombnb.dto.BookmarkRequestDto;
 import com.sparta.roombnb.dto.BookmarkResponseDto;
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.dto.MyPageResponseDto;
+import com.sparta.roombnb.security.CustomUserDetails;
 import com.sparta.roombnb.security.UserDetailsImpl;
 import com.sparta.roombnb.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class BookmarkController {
     @PostMapping
     public ResponseEntity<CommonResponse<List<BookmarkResponseDto>>> createBookmark(
             @RequestBody BookmarkRequestDto request,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
         try{
             List<BookmarkResponseDto> response = bookmarkService.createBookmark(request, userDetails.getUser());
             return ResponseEntity.ok()
@@ -46,7 +47,7 @@ public class BookmarkController {
 
     @GetMapping
     public ResponseEntity<CommonResponse<List<BookmarkResponseDto>>> getBookmark(
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
             List<BookmarkResponseDto> response = bookmarkService.getBookmark(userDetails.getUser());
             return ResponseEntity.ok()
                     .body(CommonResponse.<List<BookmarkResponseDto>>builder()
@@ -58,15 +59,16 @@ public class BookmarkController {
 
     @DeleteMapping()
     public ResponseEntity<CommonResponse<?>> deleteBookmark(
-            @RequestBody BookmarkRequestDto request) {
+            @RequestBody BookmarkRequestDto request,
+    @AuthenticationPrincipal CustomUserDetails userDetails) {
         try {
-            bookmarkService.deleteBookmark(request);
+            bookmarkService.deleteBookmark(request,userDetails.getUser());
             return ResponseEntity.ok().body(new CommonResponse<>(HttpStatus.OK.value(), "북마크가 삭제되었습니다."));
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(new CommonResponse<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
         }
     }
-    }
+
 
 
 }

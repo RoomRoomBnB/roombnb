@@ -14,11 +14,12 @@ public class Bookmark {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id", nullable = false, unique = true) //post는 user당 1개씩만 unique로 저장
     private Post post;
 
@@ -27,4 +28,9 @@ public class Bookmark {
         this.post = post;
     }
 
+    public Bookmark(Bookmark bookmark) {
+        this.id = bookmark.getId();
+        this.user = bookmark.getUser();
+        this.post = bookmark.getPost();
+    }
 }

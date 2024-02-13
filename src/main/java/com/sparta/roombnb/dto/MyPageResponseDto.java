@@ -2,9 +2,13 @@ package com.sparta.roombnb.dto;
 
 import com.sparta.roombnb.entity.Bookmark;
 import com.sparta.roombnb.entity.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 public class MyPageResponseDto {
     private String username;
     private String email;
@@ -13,8 +17,8 @@ public class MyPageResponseDto {
 
     public MyPageResponseDto(User user) {
         this.username = user.getUsername();
-        this.email = user.getUsername();
-        this.photo = user.getUsername();
+        this.email = user.getEmail();
+        this.photo = user.getPhoto();
         for(Bookmark bookmark: user.getBookmark()){
             bookmarkList.add(new BookmarkResponseDto(bookmark)); //Post entity 필요
         }

@@ -3,6 +3,7 @@ package com.sparta.roombnb.service;
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.dto.PostRequestDto;
 import com.sparta.roombnb.dto.PostResponseDto;
+import com.sparta.roombnb.dto.RoomDto;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.Room;
 import com.sparta.roombnb.entity.User;
@@ -10,10 +11,13 @@ import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.RoomRepository;
 import com.sparta.roombnb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,15 +30,17 @@ public class PostService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final RoomRepository roomRepository;
+    private final RoomService roomService;
 
     //게시글 작성 기능 - 숙소 정보를 가져와서 대조함
     @Transactional
     public ResponseEntity<CommonResponse<?>> createPost(PostRequestDto requestDto, User user) {
-        Optional<Room> room = roomRepository.findById(requestDto.getRoom_id());
-        if (room.isEmpty()) {
+        //Optional<Room> room = findRoom(requestDto.getContentId());
+        String contentId = roomService.findRoom(requestDto.getContentId());
+        if(contentId==null){
             return badRequest("해당하는 숙소정보가 없습니다.");
         }
-        Post post = new Post(requestDto, user, room.get());
+        Post post = new Post(requestDto, user, roomService.searchRoom(contentId));
         postRepository.save(post);
         return success("게시글 작성에 성공하셨습니다.", new PostResponseDto(post));
     }
@@ -102,10 +108,4 @@ public class PostService {
         return success("포스트 삭제에 성공하셨습니다.", "");
     }
 
-
-    //commentService 에서 Post 가져올때 사용
-    public Post getpost(Long postId) {
-        return postRepository.findById(postId)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
-    }
 }

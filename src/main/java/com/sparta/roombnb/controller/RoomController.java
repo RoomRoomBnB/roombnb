@@ -21,7 +21,4 @@ public class RoomController {
         return roomService.getRoom(page);
     }
 
-    @GetMapping("/rooms")
-    public List<RoomDto> ss(){return roomService.getRoom2();
-    }
 }

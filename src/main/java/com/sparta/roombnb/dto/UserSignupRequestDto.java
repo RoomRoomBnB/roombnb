@@ -1,11 +1,7 @@
 package com.sparta.roombnb.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -18,5 +14,4 @@ public class UserSignupRequestDto {
     private String email;
     private String introduction;
     private String photo;
-    private String role;
 }

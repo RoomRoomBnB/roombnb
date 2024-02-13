@@ -6,9 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,28 +23,36 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String contents;
     @Column(nullable = false)
-    private String room_name;
-    @Column(nullable = false)
     private Long rating;
-    @Column(nullable = false)
-    private String username;
 
-//    @OneToMany
-//    @JoinColumn(name="post_id")
-//    private  List<Comment> commentList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "post")
+
+    private List<Bookmark> BookmarkList = new ArrayList<>();
 
     public Post(PostRequestDto requestDto, User user, Room room) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        this.room_name = room.getName();
         this.rating = requestDto.getRating();
-        this.username = user.getUsername();
+        this.room = room;
+        this.user = user;
     }
 
-    public void update(PostRequestDto requestDto,Room room) {
+    public void update(PostRequestDto requestDto, Room room) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        this.room_name = room.getName();
+        this.room = room;
         this.rating = requestDto.getRating();
     }
 }

@@ -52,7 +52,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
         //토큰에서 username과 role 획득
         String username = jwtUtil.getUsername(token);
-        String role = jwtUtil.getRole(token);
         //user를 생성하여 값 set
         User user = jwtUtil.getUserFromToken(token);
         System.out.println(user);

@@ -11,11 +11,13 @@ public class CommentResponseDto {
 
     private Long id;
     private String content;
+    private UserSignupResponseDto user;
     private LocalDateTime createDate;
 
     public CommentResponseDto(Comment comment) {
         this.id = comment.getComment_id();
         this.content = comment.getContent();
+        this.user = new UserSignupResponseDto(comment.getUser().getUsername());
         this.createDate = LocalDateTime.now();
     }
 }

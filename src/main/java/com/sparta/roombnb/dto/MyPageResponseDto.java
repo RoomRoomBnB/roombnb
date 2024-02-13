@@ -15,8 +15,8 @@ public class MyPageResponseDto {
         this.username = user.getUsername();
         this.email = user.getUsername();
         this.photo = user.getUsername();
-        for(Bookmark bookmark: user.getBookmark()){
-            bookmarkList.add(new BookmarkResponseDto(bookmark)); //Post entity 필요
-        }
+//        for(Bookmark bookmark: user.getBookmark()){
+//            bookmarkList.add(new BookmarkResponseDto(bookmark)); //Post entity 필요
+//        }
     }
 }

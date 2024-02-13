@@ -16,7 +16,7 @@ public class StatusCheck {
     }
     //요청이 잘못되었을 때 잘못된 이유에 관한 메시지와 상태 코드를 보냅니다.
     static ResponseEntity<CommonResponse<?>> badRequest(String msg) {
-        return org.springframework.http.ResponseEntity.badRequest().body(CommonResponse.<PostResponseDto>builder()
+        return org.springframework.http.ResponseEntity.badRequest().body(CommonResponse.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .msg(msg)
                 .data(null)
@@ -24,7 +24,7 @@ public class StatusCheck {
     }
     //요청에 필요한 권한이 없을 때 필요한 권한에 대한 메시지와 함께 상태 코드를 보냅니다.
     static ResponseEntity<CommonResponse<?>> forBidden(String msg) {
-        return ResponseEntity.status(403).body(CommonResponse.<PostResponseDto>builder()
+        return ResponseEntity.status(403).body(CommonResponse.builder()
                 .statusCode(HttpStatus.FORBIDDEN.value())
                 .msg(msg)
                 .data(null)

@@ -6,10 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Getter
@@ -52,7 +50,7 @@ public class Post extends Timestamped {
     public void update(PostRequestDto requestDto, Room room) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        this.room=room;
+        this.room = room;
         this.rating = requestDto.getRating();
     }
 }

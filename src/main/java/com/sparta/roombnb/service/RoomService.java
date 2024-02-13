@@ -49,7 +49,7 @@ public class RoomService {
     public List<RoomDto> getRoom2(){
         URI uri = UriComponentsBuilder
                 .fromUriString("http://apis.data.go.kr/B551011/KorService1")
-                .path("/searchStay1")
+                .path("/detailCommon1")
                 .queryParam("serviceKey", "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
                 .queryParam("MobileOS","ETC")
                 .queryParam("MobileApp","RoomBnB")
@@ -57,6 +57,8 @@ public class RoomService {
                 .queryParam("contentId","2465071")
                 .queryParam("defaultYN","Y")
                 .queryParam("firstImageYN","Y")
+                .queryParam("addrinfoYN","Y")
+                .queryParam("areacodeYN","Y")
                 .encode()
                 .build()
                 .toUri();

@@ -1,5 +1,6 @@
 package com.sparta.roombnb.dto;
 
+import com.sparta.roombnb.entity.Room;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ public class RoomDto {
     private String createdAt;
     private String title;
     private String img;
+    private String tel;
 
     public RoomDto(JSONObject jsonObject){
         this.addr = jsonObject.getString("addr1");
@@ -21,5 +23,7 @@ public class RoomDto {
         this.createdAt = jsonObject.getString("createdtime");
         this.title =jsonObject.getString("title");
         this.img = jsonObject.getString("firstimage");
+        this.tel = jsonObject.getString("tel");
     }
+
 }

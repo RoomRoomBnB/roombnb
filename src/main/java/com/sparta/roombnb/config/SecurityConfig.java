@@ -27,6 +27,7 @@ public class SecurityConfig {
 
         return new BCryptPasswordEncoder();
     }
+
     //AuthenticationManager Bean 등록
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -37,17 +38,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(auth -> auth.disable())
-            .formLogin(auth -> auth.disable())
-            .httpBasic(auth -> auth.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/test").authenticated()
-                // "/api/users/signup" 경로 정확히 일치하도록 수정
-                .requestMatchers("/login", "/", "/api/users/signup").permitAll()
-                .anyRequest().authenticated())
-            .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
-            .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .csrf(auth -> auth.disable())
+                .formLogin(auth -> auth.disable())
+                .httpBasic(auth -> auth.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/test").authenticated()
+                        // "/api/users/signup" 경로 정확히 일치하도록 수정
+                        .requestMatchers("/login", "/", "/api/users/signup").permitAll()
+                        .anyRequest().authenticated())
+                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
+                .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }

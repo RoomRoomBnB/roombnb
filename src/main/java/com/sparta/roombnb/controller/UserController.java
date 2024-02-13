@@ -18,20 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+
     @GetMapping("/test")
-    public String afterLogin(){
+    public String afterLogin() {
         return "안녕";
     }
 
     @PostMapping("api/users/signup")
     public ResponseEntity<CommonResponse<UserSignupResponseDto>> singUp(
-        @RequestBody UserSignupRequestDto requestDto) {
+            @RequestBody UserSignupRequestDto requestDto) {
         UserSignupResponseDto userSignupResponseDto = userService.signUp(requestDto);
         CommonResponse<UserSignupResponseDto> response = CommonResponse.<UserSignupResponseDto>builder()
-            .statusCode(HttpStatus.OK.value())
-            .msg("회원가입 성공")
-            .data(userSignupResponseDto)
-            .build();
+                .statusCode(HttpStatus.OK.value())
+                .msg("회원가입 성공")
+                .data(userSignupResponseDto)
+                .build();
         return ResponseEntity.ok(response);
     }
 }

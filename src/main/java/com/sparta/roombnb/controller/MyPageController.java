@@ -1,9 +1,9 @@
 package com.sparta.roombnb.controller;
+
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.dto.MyPageRequestDto;
 import com.sparta.roombnb.dto.MyPageResponseDto;
 import com.sparta.roombnb.security.CustomUserDetails;
-import com.sparta.roombnb.security.UserDetailsImpl;
 import com.sparta.roombnb.service.MyPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.concurrent.RejectedExecutionException;
 

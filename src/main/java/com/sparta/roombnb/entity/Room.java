@@ -22,6 +22,6 @@ public class Room {
     private String name;
 
     @OneToMany
-    @JoinColumn(name="room_id")
+    @JoinColumn(name = "room_id")
     private List<Post> PostList = new ArrayList<>();
 }

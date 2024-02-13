@@ -4,7 +4,6 @@ import com.sparta.roombnb.dto.CommentRequestDto;
 import com.sparta.roombnb.dto.CommentResponseDto;
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.security.CustomUserDetails;
-import com.sparta.roombnb.security.UserDetailsImpl;
 import com.sparta.roombnb.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,7 @@ public class CommentController {
     @PatchMapping("/{commentId}")
     public CommonResponse<CommentResponseDto> updateComment(@PathVariable Long commentId,
                                                             @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal
-                                                                CustomUserDetails userDetails) {
+                                                            CustomUserDetails userDetails) {
 
         CommentResponseDto responseDto = commentService.updateComment(commentId, requestDto,
                 userDetails.getUser());

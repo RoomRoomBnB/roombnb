@@ -9,7 +9,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 import java.util.concurrent.RejectedExecutionException;
 
 
@@ -19,8 +18,9 @@ public class MyPageService {
 
     private final UserRepository userRepository;
     private final SecurityConfig config;
+
     public MyPageResponseDto updateMyPage(MyPageRequestDto request, User user) {
-        User existingUser  = findUser(user.getId());
+        User existingUser = findUser(user.getId());
 
         existingUser.setEmail(request.getEmail());
         existingUser.setUsername(request.getUsername());
@@ -32,13 +32,13 @@ public class MyPageService {
 
     @Transactional
     public MyPageResponseDto getMyPage(User user) {
-        User existingUser  = findUser(user.getId());
+        User existingUser = findUser(user.getId());
         return new MyPageResponseDto(existingUser);
     }
 
     @Transactional
-    public void updatePassword(MyPageRequestDto request, User user){
-        User existingUser  = findUser(user.getId());
+    public void updatePassword(MyPageRequestDto request, User user) {
+        User existingUser = findUser(user.getId());
         existingUser.setPassword(config.bCryptPasswordEncoder().encode(request.getPassword()));
     }
 

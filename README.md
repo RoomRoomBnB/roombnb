@@ -24,12 +24,14 @@ RoomRoomBnB는 숙박업소를 태그하여 사용자들이 별점을 매기고 
 | 로그인 | /login | POST |  | { ‘email’: ‘이메일’, password’: ‘비밀번호’ } | {statusCode’: ‘상태코드’, ’msg: ‘서버메세지’, } | Authorization: Bearer + 토큰값 |
 
 ![스크린샷 2024-02-14 오후 8 25 56](https://github.com/RoomRoomBnB/demo-repository/assets/47919911/266412d9-ec92-478b-8f74-8553337f0bde)
-
-
+### 📜API 명세서
+*********************
+![스크린샷 2024-02-14 오후 8 55 27](https://github.com/RoomRoomBnB/roombnb/assets/47919911/9b1284d4-9982-4eb2-af0f-a0920960d13a)
+![스크린샷 2024-02-14 오후 8 55 37](https://github.com/RoomRoomBnB/roombnb/assets/47919911/d747e95d-a2a6-4a67-8a58-0cdf4f53f540)
 ### 📐와이어프레임
 ****************
 ![와이어프레임](https://github.com/RoomRoomBnB/roombnb/assets/47919911/245004a2-fe13-4fd9-8c8b-8f7900b16f2a)
 ### 🗂️ERD DIAGRAM
 *****************
 ![erd리드미](https://github.com/RoomRoomBnB/roombnb/assets/47919911/6fb7df3a-8868-4492-bfe9-e406d993bf8b)
-### 📜API 명세서
+

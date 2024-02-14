@@ -5,6 +5,7 @@ import com.sparta.roombnb.service.RoomService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,15 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping("/rooms/{page}")
-    public List<RoomDto> searchRooms(@PathVariable String page){
+    public List<RoomDto> searchRooms(@PathVariable String page) throws JSONException {
         return roomService.getRoom(page);
     }
+
+    @GetMapping("/room/{roomId}")
+    public RoomDto getRoom(@PathVariable String roomId) throws JSONException {
+        return roomService.searchRoom(roomId);
+    }
+
+
 
 }

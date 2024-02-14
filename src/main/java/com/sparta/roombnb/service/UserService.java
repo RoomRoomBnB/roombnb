@@ -35,7 +35,6 @@ public class UserService {
         if (checkEmail.isPresent()) {
             throw new IllegalArgumentException("중복된 Email 입니다.");
         }
-        //이메일 정규표현식
         boolean isValid = validateEmail(email, pattern);
         if (isValid) {
             System.out.println(email + "회원가입 완료");

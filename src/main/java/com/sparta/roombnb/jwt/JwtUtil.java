@@ -36,6 +36,7 @@ public class JwtUtil {
 
     private Claims setClaims(User user) {
         Claims claims = Jwts.claims();
+        System.out.println(user.getUsername()+user.getIntroduction());
         Map<String,Object> userInfo = Map.of(
             "id",user.getId(),
             "username",user.getUsername(),

@@ -42,7 +42,6 @@ public class JwtUtil {
         claims.put("email", user.getEmail());
         claims.put("introduction", user.getIntroduction());
         claims.put("photo", user.getPhoto());
-        claims.put("role", user.getRole());
         claims.put("password", user.getPassword());
         return Jwts.builder()
                 .setClaims(claims)
@@ -60,7 +59,6 @@ public class JwtUtil {
         user.setEmail(claims.get("email", String.class));
         user.setIntroduction(claims.get("introduction", String.class));
         user.setPhoto(claims.get("photo", String.class));
-        user.setRole(claims.get("role", String.class));
         user.setPassword(claims.get("password", String.class));
         return user;
     }

@@ -1,10 +1,13 @@
 package com.sparta.roombnb.repository;
 
+import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    Optional<Room> findByContentId(String contentId);
+    List<Room> findAllByContentId(String contentId);
+
+    Room findByPostId(Long postId);
 }

@@ -1,6 +1,10 @@
 package com.sparta.roombnb.service;
 
 import com.sparta.roombnb.dto.RoomDto;
+import com.sparta.roombnb.entity.Post;
+import com.sparta.roombnb.entity.Room;
+import com.sparta.roombnb.repository.PostRepository;
+import com.sparta.roombnb.repository.RoomRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,15 +18,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
 public class RoomService {
 
     private final RestTemplate restTemplate;
+    private final RoomRepository roomRepository;
 
-    public  RoomService(RestTemplateBuilder builder){
+    private final PostRepository postRepository;
+
+    public  RoomService(RestTemplateBuilder builder, RoomRepository roomRepository, PostRepository postRepository){
         this.restTemplate = builder.build();
+        this.roomRepository = roomRepository;
+        this.postRepository = postRepository;
     }
 
     public List<RoomDto> getRoom(String pageNo){
@@ -50,7 +60,7 @@ public class RoomService {
         URI uri = UriComponentsBuilder
                 .fromUriString("http://apis.data.go.kr/B551011/KorService1")
                 .path("/detailCommon1")
-                .queryParam("serviceKey", "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
+                .queryParam("serviceKey", "jvnBDRsa7dr6pSY15zC%2FoqH%2FjVs0siBgYo5FCQ%2BR2aE0eUJ%2BuTgR0poEG0RFSg3jnltjiWyDzcdDrvyjrYRXjg%3D%3D")
                 .queryParam("MobileOS","ETC")
                 .queryParam("MobileApp","RoomBnB")
                 .queryParam("_type","json")
@@ -63,6 +73,8 @@ public class RoomService {
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         JSONObject jsonObject = new JSONObject(responseEntity);
+        System.out.println(responseEntity.getBody());
+        System.out.println( jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONObject("contentId").toString());
         return jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONObject("contentId").toString();
     }
 
@@ -87,7 +99,6 @@ public class RoomService {
                 .get(uri)
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
-        JSONObject jsonObject = new JSONObject(responseEntity);
         return fromJSONtoRoom(responseEntity.getBody()).get(0);
     }
 
@@ -98,8 +109,21 @@ public class RoomService {
         List<RoomDto> roomDtos = new ArrayList<>();
 
         for (Object item : jsonItem) {
-            RoomDto roomDto = new RoomDto((JSONObject) item);
-            roomDtos.add(roomDto);
+            JSONObject items = (JSONObject)item;
+            List<Room> roomList = roomRepository.findAllByContentId(items.getString("contentId"));
+            List<Long> postIdList = roomList.stream().map(Room::getPostId).toList();
+            List<Post> postList = new ArrayList<>();
+            for(Long id: postIdList){
+                postList.add(postRepository.findById(id).get());
+            }
+            if(postList.isEmpty()){
+                RoomDto roomDto = new RoomDto(items);
+                roomDtos.add(roomDto);
+            }
+            else{
+                RoomDto roomDto = new RoomDto(items,postList);
+                roomDtos.add(roomDto);
+            }
         }
 
         return roomDtos;

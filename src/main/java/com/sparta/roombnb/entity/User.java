@@ -31,8 +31,6 @@ public class User {
     private String introduction;
     @Column(name = "photo", nullable = true)
     private String photo;
-    @Column(name = "role", nullable = false)
-    private String role;
     @OneToMany(mappedBy = "user")
     private List<Bookmark> bookmark = new ArrayList<>();
     @OneToMany(mappedBy = "user")

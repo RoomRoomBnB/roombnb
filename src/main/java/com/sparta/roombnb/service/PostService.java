@@ -35,13 +35,13 @@ public class PostService {
     //게시글 작성 기능 - 숙소 정보를 가져와서 대조함
     @Transactional
     public ResponseEntity<CommonResponse<?>> createPost(PostRequestDto requestDto, User user) {
-        //Optional<Room> room = findRoom(requestDto.getContentId());
         String contentId = roomService.findRoom(requestDto.getContentId());
-        if(contentId==null){
+        if (contentId == null) {
             return badRequest("해당하는 숙소정보가 없습니다.");
         }
         Post post = new Post(requestDto, user, roomService.searchRoom(contentId));
         postRepository.save(post);
+        roomRepository.save(new Room(post.getId(), contentId));
         return success("게시글 작성에 성공하셨습니다.", new PostResponseDto(post));
     }
 
@@ -86,7 +86,7 @@ public class PostService {
             return forBidden("해당 포스트를 수정할 권한이 없습니다.");
         }
         String contentId = roomService.findRoom(requestDto.getContentId());
-        if(contentId==null){
+        if (contentId == null) {
             return badRequest("해당하는 숙소정보가 없습니다.");
         }
         post.get().update(requestDto, roomService.searchRoom(contentId));
@@ -105,12 +105,9 @@ public class PostService {
             return forBidden("해당 포스트를 삭제할 권한이 없습니다.");
         }
         postRepository.delete(post.get());
+        roomRepository.delete(roomRepository.findByPostId(postId));
         return success("포스트 삭제에 성공하셨습니다.", "");
     }
 
-
-    public Optional<Room> findRoom(String contentId){
-        return roomRepository.findByContentId(contentId);
-    }
 
 }

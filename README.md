@@ -20,5 +20,5 @@ RoomRoomBnB는 숙박업소를 태그하여 사용자들이 별점을 매기고 
 ![와이어프레임](https://github.com/RoomRoomBnB/roombnb/assets/47919911/245004a2-fe13-4fd9-8c8b-8f7900b16f2a)
 ### 🗂️ERD DIAGRAM
 *****************
-![erd](https://github.com/RoomRoomBnB/roombnb/assets/47919911/87b47b1f-8ce2-49ed-8d3e-8212c74e6818)
+![erd리드미](https://github.com/RoomRoomBnB/roombnb/assets/47919911/6fb7df3a-8868-4492-bfe9-e406d993bf8b)
 ### 📜API 명세서

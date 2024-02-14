@@ -72,10 +72,8 @@ public class RoomService {
                 .get(uri)
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
-        JSONObject jsonObject = new JSONObject(responseEntity);
         System.out.println(responseEntity.getBody());
-        System.out.println( jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONObject("contentId").toString());
-        return jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONObject("contentId").toString();
+        return findContentId(responseEntity.getBody());
     }
 
     public RoomDto searchRoom(String contentId){
@@ -87,7 +85,7 @@ public class RoomService {
                 .queryParam("MobileApp","RoomBnB")
                 .queryParam("_type","json")
                 .queryParam("contentId",contentId)
-                .queryParam("defaultYN","y")
+                .queryParam("defaultYN","Y")
                 .queryParam("firstImageYN","Y")
                 .queryParam("areacodeYN","Y")
                 .queryParam("addrinfoYN","Y")
@@ -99,6 +97,7 @@ public class RoomService {
                 .get(uri)
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+        System.out.println(responseEntity.getBody());
         return fromJSONtoRoom(responseEntity.getBody()).get(0);
     }
 
@@ -110,7 +109,8 @@ public class RoomService {
 
         for (Object item : jsonItem) {
             JSONObject items = (JSONObject)item;
-            List<Room> roomList = roomRepository.findAllByContentId(items.getString("contentId"));
+            String contentId = items.getString("contentid");
+            List<Room> roomList = roomRepository.findAllByContentId(contentId);
             List<Long> postIdList = roomList.stream().map(Room::getPostId).toList();
             List<Post> postList = new ArrayList<>();
             for(Long id: postIdList){
@@ -127,5 +127,17 @@ public class RoomService {
         }
 
         return roomDtos;
+    }
+
+    public String findContentId(String responseEntity){
+        JSONObject jsonObject = new JSONObject(responseEntity);
+        System.out.println(jsonObject);
+
+        JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items");
+        JSONArray jsonItem  = jsonResponse.getJSONArray("item");
+        JSONObject jsonObject1 = (JSONObject) jsonItem.get(0);
+        System.out.println(jsonObject1);
+        String contentId = jsonObject1.getString("contentid");
+        return contentId;
     }
 }

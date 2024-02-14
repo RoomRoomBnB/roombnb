@@ -63,7 +63,7 @@ public class RoomService {
         URI uri = UriComponentsBuilder
                 .fromUriString("http://apis.data.go.kr/B551011/KorService1")
                 .path("/detailCommon1")
-                .queryParam("serviceKey", "jvnBDRsa7dr6pSY15zC%2FoqH%2FjVs0siBgYo5FCQ%2BR2aE0eUJ%2BuTgR0poEG0RFSg3jnltjiWyDzcdDrvyjrYRXjg%3D%3D")
+                .queryParam("serviceKey", "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
                 .queryParam("MobileOS","ETC")
                 .queryParam("MobileApp","RoomBnB")
                 .queryParam("_type","json")

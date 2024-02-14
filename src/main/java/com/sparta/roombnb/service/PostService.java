@@ -83,7 +83,7 @@ public class PostService {
             return badRequest("해당하는 포스트가 없습니다.");
         }
         Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        if (user.get()!=post.get().getUser()) {
             return forBidden("해당 포스트를 수정할 권한이 없습니다.");
         }
         String contentId = roomService.findRoom(requestDto.getContentId());
@@ -102,7 +102,7 @@ public class PostService {
             return badRequest("해당하는 포스트가 없습니다.");
         }
         Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        if (user.get()!=post.get().getUser()) {
             return forBidden("해당 포스트를 삭제할 권한이 없습니다.");
         }
         postRepository.delete(post.get());

@@ -23,4 +23,7 @@ public class UserSignupResponseDto {
         this.introduction = user.getIntroduction();
         this.photo = user.getPhoto();
     }
+
+    public UserSignupResponseDto(String username) {
+    }
 }

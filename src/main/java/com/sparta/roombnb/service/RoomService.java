@@ -53,7 +53,7 @@ public class RoomService {
             .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         System.out.println(responseEntity.getBody());
-        return fromJSONtoRoom(responseEntity.getBody());
+        return getRoomDto(responseEntity.getBody());
     }
 
     public String findRoom(String contentId) {
@@ -100,10 +100,10 @@ public class RoomService {
             .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         System.out.println(responseEntity.getBody());
-        return fromJSONtoRoom(responseEntity.getBody()).get(0);
+        return getRoomDto(responseEntity.getBody()).get(0);
     }
 
-    public List<RoomDto> fromJSONtoRoom(String responseEntity) {
+    public List<RoomDto> getRoomDto(String responseEntity) {
         JSONObject jsonObject = new JSONObject(responseEntity);
         JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body")
             .getJSONObject("items");
@@ -139,7 +139,6 @@ public class RoomService {
             .getJSONObject("items");
         JSONArray jsonItem = jsonResponse.getJSONArray("item");
         JSONObject jsonObject1 = (JSONObject) jsonItem.get(0);
-        System.out.println(jsonObject1);
         String contentId = jsonObject1.getString("contentid");
         return contentId;
     }

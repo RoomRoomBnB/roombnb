@@ -7,10 +7,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.json.JSONException;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Room API", description = "숙소 API")
 @Slf4j
@@ -23,8 +21,15 @@ public class RoomController {
 
     @Operation(summary = "숙소 조회", description = "숙소 조회")
     @GetMapping("/rooms/{page}")
-    public List<RoomDto> searchRooms(@PathVariable String page) {
+    public List<RoomDto> searchRooms(@PathVariable String page) throws JSONException {
         return roomService.getRoom(page);
     }
+
+    @GetMapping("/room/{roomId}")
+    public RoomDto getRoom(@PathVariable String roomId) throws JSONException {
+        return roomService.searchRoom(roomId);
+    }
+
+
 
 }

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final PostService postService;
     private final PostRepository postRepository;
 
     @Transactional

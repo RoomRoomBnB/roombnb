@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
-
     private Key key;
 
     public JwtUtil(@Value("${jwt.secret.key}") String secret) {
@@ -25,13 +24,11 @@ public class JwtUtil {
 
     public String getUsername(String token) {
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody()
-            .get("username", String.class);
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("username", String.class);
     }
 
     public Boolean isExpired(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody()
-            .getExpiration().before(new Date());
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
 
     //코드 중복 줄이기
@@ -39,9 +36,9 @@ public class JwtUtil {
 
     private Claims setClaims(User user) {
         Claims claims = Jwts.claims();
-        Map<String, Object> userInfo = Map.of(
-            "id", user.getId(),
-            "username", user.getUsername(),
+        Map<String,Object> userInfo = Map.of(
+            "id",user.getId(),
+            "username",user.getUsername(),
             "email", user.getEmail()
         );
         claims.putAll(userInfo);
@@ -52,16 +49,14 @@ public class JwtUtil {
     public String createJwt(User user) {
         Claims claims = setClaims(user);
         return Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 30000000))
-            .signWith(key, SignatureAlgorithm.HS256)
-            .compact();
+                .setClaims(claims)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 30000000))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
-
     public User getUserFromToken(String token) {
-        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
-            .getBody();
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         User user = new User();
         user.setId(claims.get("id", Long.class));
         user.setUsername(claims.get("username", String.class));

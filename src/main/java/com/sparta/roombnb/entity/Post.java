@@ -37,6 +37,10 @@ public class Post extends Timestamped {
     private String room_title;
     @Column(nullable = false)
     private String room_id;
+    @Column(nullable = false)
+    private String room_tel;
+    @Column(nullable = false)
+    private String room_address;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -44,7 +48,6 @@ public class Post extends Timestamped {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "post")
 
@@ -56,7 +59,9 @@ public class Post extends Timestamped {
         this.rating = requestDto.getRating();
         this.user = user;
         this.room_title = roomDto.getTitle();
+        this.room_tel = roomDto.getTel();
         this.room_id = roomDto.getContentId();
+        this.room_address = roomDto.getAddr();
     }
 
     public void update(PostRequestDto requestDto, RoomDto roomDto) {

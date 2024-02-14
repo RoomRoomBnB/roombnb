@@ -27,28 +27,17 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         this.jwtUtil = jwtUtil;
         //setFilterProcessesUrl();
     }
-
-    //    @Override
-//    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-//
-//        //클라이언트 요청에서 username, password 추출
-//        String username = obtainUsername(request);
-//        String password = obtainPassword(request);
-//
-//        //스프링 시큐리티에서 username과 password를 검증하기 위해서는 token에 담아야 함
-//        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
-//
-//        //token에 담은 검증을 위한 AuthenticationManager로 전달
-//        return authenticationManager.authenticate(authToken);
-//    }
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, String> requestBody = objectMapper.readValue(request.getInputStream(), Map.class);
-            String username = requestBody.get("username");
+            //클라이언트 요청에서 email,password 추출
+            String email = requestBody.get("email");
             String password = requestBody.get("password");
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
+            //스프링 시큐리티에서 email과 password를 검증하기 위해서는 token에 담아야 함
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, password);
+            //token에 담은 검증을 위한 AuthenticationManager로 전달
             return authenticationManager.authenticate(authToken);
         } catch (IOException e) {
             throw new RuntimeException(e);

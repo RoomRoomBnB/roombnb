@@ -1,4 +1,4 @@
-package com.sparta.roombnb.dto;
+package com.sparta.roombnb.dto.Post;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

@@ -1,4 +1,4 @@
-package com.sparta.roombnb.dto;
+package com.sparta.roombnb.dto.MyPage;
 
 
 import lombok.AllArgsConstructor;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MyPageRequestDto {
+
     private String username;
     private String email;
     private String photo;

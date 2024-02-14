@@ -1,15 +1,14 @@
 package com.sparta.roombnb.service;
 
 import com.sparta.roombnb.config.SecurityConfig;
-import com.sparta.roombnb.dto.MyPageRequestDto;
-import com.sparta.roombnb.dto.MyPageResponseDto;
+import com.sparta.roombnb.dto.MyPage.MyPageRequestDto;
+import com.sparta.roombnb.dto.MyPage.MyPageResponseDto;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import java.util.concurrent.RejectedExecutionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.RejectedExecutionException;
 
 
 @Service
@@ -43,6 +42,7 @@ public class MyPageService {
     }
 
     private User findUser(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RejectedExecutionException("해당 사용자가 존재하지 않습니다."));
+        return userRepository.findById(id)
+            .orElseThrow(() -> new RejectedExecutionException("해당 사용자가 존재하지 않습니다."));
     }
 }

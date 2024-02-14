@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MyPageRequestDto {
+
     private String username;
     private String email;
     private String photo;

@@ -76,31 +76,31 @@ public class RoomService {
         return findContentId(responseEntity.getBody());
     }
 
-    public RoomDto searchRoom(String contentId){
+    public RoomDto searchRoom(String contentId) {
         URI uri = UriComponentsBuilder
-                .fromUriString("http://apis.data.go.kr/B551011/KorService1")
-                .path("/detailCommon1")
-                .queryParam("serviceKey", "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
-                .queryParam("MobileOS","ETC")
-                .queryParam("MobileApp","RoomBnB")
-                .queryParam("_type","json")
-                .queryParam("contentId",contentId)
-                .queryParam("defaultYN","Y")
-                .queryParam("firstImageYN","Y")
-                .queryParam("areacodeYN","Y")
-                .queryParam("addrinfoYN","Y")
-                .queryParam("overviewYN","Y")
-                .encode()
-                .build()
-                .toUri();
+            .fromUriString("http://apis.data.go.kr/B551011/KorService1")
+            .path("/detailCommon1")
+            .queryParam("serviceKey",
+                "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
+            .queryParam("MobileOS", "ETC")
+            .queryParam("MobileApp", "RoomBnB")
+            .queryParam("_type", "json")
+            .queryParam("contentId", contentId)
+            .queryParam("defaultYN", "Y")
+            .queryParam("firstImageYN", "Y")
+            .queryParam("areacodeYN", "Y")
+            .queryParam("addrinfoYN", "Y")
+            .queryParam("overviewYN", "Y")
+            .encode()
+            .build()
+            .toUri();
         RequestEntity<Void> requestEntity = RequestEntity
-                .get(uri)
-                .build();
+            .get(uri)
+            .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         System.out.println(responseEntity.getBody());
         return fromJSONtoRoom(responseEntity.getBody()).get(0);
     }
-
     public List<RoomDto> fromJSONtoRoom(String responseEntity) {
         JSONObject jsonObject = new JSONObject(responseEntity);
         JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items");
@@ -125,14 +125,11 @@ public class RoomService {
                 roomDtos.add(roomDto);
             }
         }
-
         return roomDtos;
     }
-
     public String findContentId(String responseEntity){
         JSONObject jsonObject = new JSONObject(responseEntity);
         System.out.println(jsonObject);
-
         JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items");
         JSONArray jsonItem  = jsonResponse.getJSONArray("item");
         JSONObject jsonObject1 = (JSONObject) jsonItem.get(0);

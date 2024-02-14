@@ -1,28 +1,26 @@
 package com.sparta.roombnb.service;
 
+import static com.sparta.roombnb.service.StatusCheck.badRequest;
+import static com.sparta.roombnb.service.StatusCheck.forBidden;
+import static com.sparta.roombnb.service.StatusCheck.success;
+
 import com.sparta.roombnb.dto.CommonResponse;
-import com.sparta.roombnb.dto.PostRequestDto;
-import com.sparta.roombnb.dto.PostResponseDto;
-import com.sparta.roombnb.dto.RoomDto;
+import com.sparta.roombnb.dto.Post.PostRequestDto;
+import com.sparta.roombnb.dto.Post.PostResponseDto;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.Room;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.RoomRepository;
 import com.sparta.roombnb.repository.UserRepository;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-
-import static com.sparta.roombnb.service.StatusCheck.*;
 
 
 @Service

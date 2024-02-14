@@ -1,15 +1,21 @@
 package com.sparta.roombnb.entity;
 
-import com.sparta.roombnb.dto.PostRequestDto;
+import com.sparta.roombnb.dto.Post.PostRequestDto;
 import com.sparta.roombnb.dto.RoomDto;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.sql.Delete;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -17,6 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "post")
 public class Post extends Timestamped {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

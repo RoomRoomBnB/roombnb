@@ -3,11 +3,13 @@ package com.sparta.roombnb.controller;
 import static com.sparta.roombnb.service.StatusCheck.badRequest;
 import static com.sparta.roombnb.service.StatusCheck.success;
 
-import com.sparta.roombnb.dto.CommentRequestDto;
-import com.sparta.roombnb.dto.CommentResponseDto;
+import com.sparta.roombnb.dto.Comment.CommentRequestDto;
+import com.sparta.roombnb.dto.Comment.CommentResponseDto;
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.security.CustomUserDetails;
 import com.sparta.roombnb.service.CommentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.concurrent.RejectedExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Comment API", description = "댓글 API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +32,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @Operation(summary = "댓글 생성", description = "댓글 생성")
     @PostMapping("")
     public ResponseEntity<CommonResponse<?>> createComment(
         @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal
@@ -42,6 +46,7 @@ public class CommentController {
         }
     }
 
+    @Operation(summary = "댓글 수정", description = "댓글 수정")
     @PatchMapping("/{commentId}")
     public ResponseEntity<CommonResponse<?>> updateComment(@PathVariable Long commentId,
         @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal
@@ -56,6 +61,7 @@ public class CommentController {
         }
     }
 
+    @Operation(summary = "댓글 삭제", description = "댓글 삭제")
     @DeleteMapping("/{commentId}")
     public ResponseEntity<CommonResponse<?>> deleteComment(
         @PathVariable Long commentId, @AuthenticationPrincipal
@@ -66,7 +72,5 @@ public class CommentController {
         } catch (RejectedExecutionException | IllegalArgumentException ex) {
             return badRequest(ex.getMessage());
         }
-
-
     }
 }

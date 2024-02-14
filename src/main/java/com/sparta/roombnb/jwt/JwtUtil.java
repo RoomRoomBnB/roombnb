@@ -27,9 +27,6 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("username", String.class);
     }
 
-    public String getRole(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("role", String.class);
-    }
 
     public Boolean isExpired(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
@@ -42,7 +39,6 @@ public class JwtUtil {
         claims.put("email", user.getEmail());
         claims.put("introduction", user.getIntroduction());
         claims.put("photo", user.getPhoto());
-        claims.put("role", user.getRole());
         claims.put("password", user.getPassword());
         return Jwts.builder()
                 .setClaims(claims)
@@ -60,7 +56,6 @@ public class JwtUtil {
         user.setEmail(claims.get("email", String.class));
         user.setIntroduction(claims.get("introduction", String.class));
         user.setPhoto(claims.get("photo", String.class));
-        user.setRole(claims.get("role", String.class));
         user.setPassword(claims.get("password", String.class));
         return user;
     }

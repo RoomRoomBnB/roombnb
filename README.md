@@ -15,6 +15,16 @@ RoomRoomBnB는 숙박업소를 태그하여 사용자들이 별점을 매기고 
 * 댓글 조회/전체조회/작성/수정/삭제 기능(이도연)
 * 북마크/마이페이지 기능(김예진)
 * 오픈 API를 활용한 숙소 정보 검색/조회 기능(김형우)
+### 🧪테스트 방법
+**************
+* RoomRoomBnB 프로젝트의 기능 테스트는 API 명세서에 정의된 엔드포인트를 활용하여 진행됩니다. 테스트 과정에서는 Postman을 사용하여 해당 엔드포인트로 요청을 보내고, 응답을 검증합니다.
+
+| 기능 | API URL | Method | Request Header | Request | Response | Response header |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| 로그인 | /login | POST |  | { ‘email’: ‘이메일’, password’: ‘비밀번호’ } | {statusCode’: ‘상태코드’, ’msg: ‘서버메세지’, } | Authorization: Bearer + 토큰값 |
+![스크린샷 2024-02-14 오후 8 25 56](https://github.com/RoomRoomBnB/demo-repository/assets/47919911/266412d9-ec92-478b-8f74-8553337f0bde)
+
+
 #### 📐와이어프레임
 ****************
 ![와이어프레임](https://github.com/RoomRoomBnB/roombnb/assets/47919911/245004a2-fe13-4fd9-8c8b-8f7900b16f2a)

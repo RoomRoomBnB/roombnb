@@ -109,8 +109,6 @@ public class PostService {
     }
 
 
-    public Optional<Room> findRoom(String contentId){
-        return roomRepository.findByContentId(contentId);
-    }
+
 
 }

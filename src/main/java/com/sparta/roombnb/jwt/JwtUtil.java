@@ -43,7 +43,6 @@ public class JwtUtil {
             "email", user.getEmail(),
             "introduction", user.getIntroduction(),
             "photo", user.getPhoto(),
-            "role", user.getRole(),
             "password", user.getPassword()
         );
         userInfo.forEach(claims::put);

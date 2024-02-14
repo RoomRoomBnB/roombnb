@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
+
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtUtil jwtUtil;
 
@@ -30,7 +31,8 @@ public class SecurityConfig {
 
     //AuthenticationManager Bean 등록
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+        throws Exception {
 
         return configuration.getAuthenticationManager();
     }
@@ -38,18 +40,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(auth -> auth.disable())
-                .formLogin(auth -> auth.disable())
-                .httpBasic(auth -> auth.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/test").authenticated()
-                        // "/api/users/signup" 경로 정확히 일치하도록 수정
-                        .requestMatchers("/login", "/", "/api/users/signup").permitAll()
-                        .anyRequest().authenticated())
-                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
-                .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            .csrf(auth -> auth.disable())
+            .formLogin(auth -> auth.disable())
+            .httpBasic(auth -> auth.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/test").authenticated()
+                // "/api/users/signup" 경로 정확히 일치하도록 수정
+                .requestMatchers("/login", "/", "/v3/api-docs/**", "/api/users/signup",
+                    "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .anyRequest().authenticated())
+            .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
+            .addFilterBefore(
+                new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
+                UsernamePasswordAuthenticationFilter.class)
+            .sessionManagement(
+                session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
+
+
 }

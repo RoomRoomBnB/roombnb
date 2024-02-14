@@ -1,4 +1,4 @@
-package com.sparta.roombnb.dto;
+package com.sparta.roombnb.dto.Signup;
 
 
 import com.sparta.roombnb.entity.User;
@@ -10,6 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class UserSignupResponseDto {
+
     private Long id;
     private String username;
     private String email;
@@ -23,4 +24,5 @@ public class UserSignupResponseDto {
         this.introduction = user.getIntroduction();
         this.photo = user.getPhoto();
     }
+
 }

@@ -1,15 +1,21 @@
 package com.sparta.roombnb.entity;
 
-import com.sparta.roombnb.dto.PostRequestDto;
+import com.sparta.roombnb.dto.Post.PostRequestDto;
 import com.sparta.roombnb.dto.RoomDto;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.sql.Delete;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -17,6 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "post")
 public class Post extends Timestamped {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,6 +37,10 @@ public class Post extends Timestamped {
     private String room_title;
     @Column(nullable = false)
     private String room_id;
+    @Column(nullable = false)
+    private String room_tel;
+    @Column(nullable = false)
+    private String room_address;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -37,7 +48,6 @@ public class Post extends Timestamped {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "post")
 
@@ -49,7 +59,9 @@ public class Post extends Timestamped {
         this.rating = requestDto.getRating();
         this.user = user;
         this.room_title = roomDto.getTitle();
+        this.room_tel = roomDto.getTel();
         this.room_id = roomDto.getContentId();
+        this.room_address = roomDto.getAddr();
     }
 
     public void update(PostRequestDto requestDto, RoomDto roomDto) {

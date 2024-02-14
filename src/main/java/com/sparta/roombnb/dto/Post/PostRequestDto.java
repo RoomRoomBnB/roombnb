@@ -1,8 +1,7 @@
-package com.sparta.roombnb.dto;
+package com.sparta.roombnb.dto.Post;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,9 +10,8 @@ import lombok.Setter;
 public class PostRequestDto {
     private String title;
     private String contents;
-    //@Size(min=0,max=5)
-    @Min(value =0 ,message = "aaa")
-    @Max(value =5 ,message = "bbb")
+    @Min(value = 0, message = "Rating must be at least 0")
+    @Max(value = 5, message = "Rating must be at most 5")
     private Long rating;
     private String contentId;
 }

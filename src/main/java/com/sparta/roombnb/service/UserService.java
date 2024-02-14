@@ -1,21 +1,21 @@
 package com.sparta.roombnb.service;
 
 
-import com.sparta.roombnb.dto.UserSignupRequestDto;
-import com.sparta.roombnb.dto.UserSignupResponseDto;
+import com.sparta.roombnb.dto.Signup.UserSignupRequestDto;
+import com.sparta.roombnb.dto.Signup.UserSignupResponseDto;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.UserRepository;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -35,7 +35,6 @@ public class UserService {
         if (checkEmail.isPresent()) {
             throw new IllegalArgumentException("중복된 Email 입니다.");
         }
-        //이메일 정규표현식
         boolean isValid = validateEmail(email, pattern);
         if (isValid) {
             System.out.println(email + "회원가입 완료");

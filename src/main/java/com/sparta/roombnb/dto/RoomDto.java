@@ -1,12 +1,10 @@
 package com.sparta.roombnb.dto;
 
 import com.sparta.roombnb.entity.Post;
-import com.sparta.roombnb.entity.Room;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -21,7 +19,7 @@ public class RoomDto {
     private Long ratingAvg;
     private List<String> postList;
 
-    public RoomDto(JSONObject jsonObject){
+    public RoomDto(JSONObject jsonObject) throws JSONException {
         this.addr = jsonObject.getString("addr1");
         this.areacode = jsonObject.getString("areacode");
         this.title =jsonObject.getString("title");
@@ -31,7 +29,7 @@ public class RoomDto {
         this.ratingAvg = 0L;
         this.postList = null;
     }
-    public RoomDto(JSONObject jsonObject,List<Post> postList){
+    public RoomDto(JSONObject jsonObject,List<Post> postList) throws JSONException {
         this.addr = jsonObject.getString("addr1");
         this.areacode = jsonObject.getString("areacode");
         this.title =jsonObject.getString("title");

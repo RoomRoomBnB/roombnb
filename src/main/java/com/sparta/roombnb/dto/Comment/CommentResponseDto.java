@@ -1,4 +1,4 @@
-package com.sparta.roombnb.dto;
+package com.sparta.roombnb.dto.Comment;
 
 import com.sparta.roombnb.entity.Comment;
 import java.time.LocalDateTime;

@@ -1,5 +1,6 @@
-package com.sparta.roombnb.dto;
+package com.sparta.roombnb.dto.Post;
 
+import com.sparta.roombnb.dto.Comment.CommentResponseDto;
 import com.sparta.roombnb.entity.Post;
 import java.time.LocalDateTime;
 import java.util.List;

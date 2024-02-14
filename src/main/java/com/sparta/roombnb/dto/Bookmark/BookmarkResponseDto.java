@@ -1,4 +1,4 @@
-package com.sparta.roombnb.dto;
+package com.sparta.roombnb.dto.Bookmark;
 
 
 import com.sparta.roombnb.entity.Bookmark;

@@ -1,6 +1,6 @@
 package com.sparta.roombnb.entity;
 
-import com.sparta.roombnb.dto.UserSignupRequestDto;
+import com.sparta.roombnb.dto.Signup.UserSignupRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,7 +1,7 @@
 package com.sparta.roombnb.controller;
 
 import com.sparta.roombnb.dto.CommonResponse;
-import com.sparta.roombnb.dto.PostRequestDto;
+import com.sparta.roombnb.dto.Post.PostRequestDto;
 import com.sparta.roombnb.security.CustomUserDetails;
 import com.sparta.roombnb.service.PostService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,4 +1,4 @@
-package com.sparta.roombnb.dto;
+package com.sparta.roombnb.dto.MyPage;
 
 
 import lombok.AllArgsConstructor;

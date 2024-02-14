@@ -1,7 +1,7 @@
 package com.sparta.roombnb.service;
 
-import com.sparta.roombnb.dto.BookmarkRequestDto;
-import com.sparta.roombnb.dto.BookmarkResponseDto;
+import com.sparta.roombnb.dto.Bookmark.BookmarkRequestDto;
+import com.sparta.roombnb.dto.Bookmark.BookmarkResponseDto;
 import com.sparta.roombnb.entity.Bookmark;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.User;

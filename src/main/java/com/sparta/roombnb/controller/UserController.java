@@ -3,8 +3,8 @@ package com.sparta.roombnb.controller;
 import static com.sparta.roombnb.service.StatusCheck.success;
 
 import com.sparta.roombnb.dto.CommonResponse;
-import com.sparta.roombnb.dto.UserSignupRequestDto;
-import com.sparta.roombnb.dto.UserSignupResponseDto;
+import com.sparta.roombnb.dto.Signup.UserSignupRequestDto;
+import com.sparta.roombnb.dto.Signup.UserSignupResponseDto;
 import com.sparta.roombnb.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

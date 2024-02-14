@@ -1,8 +1,8 @@
 package com.sparta.roombnb.service;
 
 import com.sparta.roombnb.config.SecurityConfig;
-import com.sparta.roombnb.dto.MyPageRequestDto;
-import com.sparta.roombnb.dto.MyPageResponseDto;
+import com.sparta.roombnb.dto.MyPage.MyPageRequestDto;
+import com.sparta.roombnb.dto.MyPage.MyPageResponseDto;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.UserRepository;
 import jakarta.transaction.Transactional;

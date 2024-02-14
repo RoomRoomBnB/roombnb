@@ -1,8 +1,8 @@
 package com.sparta.roombnb.service;
 
 
-import com.sparta.roombnb.dto.UserSignupRequestDto;
-import com.sparta.roombnb.dto.UserSignupResponseDto;
+import com.sparta.roombnb.dto.Signup.UserSignupRequestDto;
+import com.sparta.roombnb.dto.Signup.UserSignupResponseDto;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.UserRepository;
 import java.util.Optional;

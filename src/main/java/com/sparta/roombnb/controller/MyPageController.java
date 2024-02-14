@@ -1,8 +1,11 @@
 package com.sparta.roombnb.controller;
 
+import static com.sparta.roombnb.service.StatusCheck.badRequest;
+import static com.sparta.roombnb.service.StatusCheck.success;
+
 import com.sparta.roombnb.dto.CommonResponse;
-import com.sparta.roombnb.dto.MyPageRequestDto;
-import com.sparta.roombnb.dto.MyPageResponseDto;
+import com.sparta.roombnb.dto.MyPage.MyPageRequestDto;
+import com.sparta.roombnb.dto.MyPage.MyPageResponseDto;
 import com.sparta.roombnb.security.CustomUserDetails;
 import com.sparta.roombnb.service.MyPageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,41 +33,29 @@ public class MyPageController {
 
     @Operation(summary = "마이페이지 조회", description = "마이페이지 조회")
     @GetMapping("/mypage")
-    public ResponseEntity<CommonResponse<MyPageResponseDto>> getMyPage(
+    public ResponseEntity<CommonResponse<?>> getMyPage(
         @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         try {
             MyPageResponseDto response = myPageService.getMyPage(userDetails.getUser());
-            return ResponseEntity.ok()
-                .body(CommonResponse.<MyPageResponseDto>builder()
-                    .statusCode(HttpStatus.OK.value())
-                    .msg("마이페이지가 조회되었습니다.")
-                    .data(response)
-                    .build());
+            return success("마이페이지가 조회되었습니다.", response);
         } catch (RejectedExecutionException ex) {
-            return ResponseEntity.badRequest()
-                .body(new CommonResponse<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+            return badRequest(ex.getMessage());
         }
     }
 
     @Operation(summary = "마이페이지 수정", description = "마이페이지 수정")
     @PatchMapping("/mypage")
-    public ResponseEntity<CommonResponse<MyPageResponseDto>> updateMyPage(
+    public ResponseEntity<CommonResponse<?>> updateMyPage(
         @RequestBody MyPageRequestDto requestDto,
         @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
         try {
             MyPageResponseDto response = myPageService.updateMyPage(requestDto,
                 userDetails.getUser());
-            return ResponseEntity.ok()
-                .body(CommonResponse.<MyPageResponseDto>builder()
-                    .statusCode(HttpStatus.OK.value())
-                    .msg("마이페이지가 조회되었습니다.")
-                    .data(response)
-                    .build());
+            return success("마이페이지가 수정되었습니다.", response);
         } catch (RejectedExecutionException ex) {
-            return ResponseEntity.badRequest()
-                .body(new CommonResponse<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+            return badRequest(ex.getMessage());
         }
     }
 
@@ -79,8 +70,7 @@ public class MyPageController {
                 .body(new CommonResponse<>(HttpStatus.OK.value(), "비밀번호가 수정되었습니다."));
 
         } catch (RejectedExecutionException ex) {
-            return ResponseEntity.badRequest()
-                .body(new CommonResponse<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+            return badRequest(ex.getMessage());
         }
 
     }

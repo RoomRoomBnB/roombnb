@@ -1,7 +1,7 @@
 package com.sparta.roombnb.controller;
 
-import com.sparta.roombnb.dto.BookmarkRequestDto;
-import com.sparta.roombnb.dto.BookmarkResponseDto;
+import com.sparta.roombnb.dto.Bookmark.BookmarkRequestDto;
+import com.sparta.roombnb.dto.Bookmark.BookmarkResponseDto;
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.security.CustomUserDetails;
 import com.sparta.roombnb.service.BookmarkService;

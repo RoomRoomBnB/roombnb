@@ -5,8 +5,8 @@ import static com.sparta.roombnb.service.StatusCheck.forBidden;
 import static com.sparta.roombnb.service.StatusCheck.success;
 
 import com.sparta.roombnb.dto.CommonResponse;
-import com.sparta.roombnb.dto.PostRequestDto;
-import com.sparta.roombnb.dto.PostResponseDto;
+import com.sparta.roombnb.dto.Post.PostRequestDto;
+import com.sparta.roombnb.dto.Post.PostResponseDto;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.Room;
 import com.sparta.roombnb.entity.User;

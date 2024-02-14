@@ -1,8 +1,8 @@
 package com.sparta.roombnb.service;
 
 
-import com.sparta.roombnb.dto.CommentRequestDto;
-import com.sparta.roombnb.dto.CommentResponseDto;
+import com.sparta.roombnb.dto.Comment.CommentRequestDto;
+import com.sparta.roombnb.dto.Comment.CommentResponseDto;
 import com.sparta.roombnb.entity.Comment;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.User;

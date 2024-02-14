@@ -3,8 +3,8 @@ package com.sparta.roombnb.controller;
 import static com.sparta.roombnb.service.StatusCheck.badRequest;
 import static com.sparta.roombnb.service.StatusCheck.success;
 
-import com.sparta.roombnb.dto.CommentRequestDto;
-import com.sparta.roombnb.dto.CommentResponseDto;
+import com.sparta.roombnb.dto.Comment.CommentRequestDto;
+import com.sparta.roombnb.dto.Comment.CommentResponseDto;
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.security.CustomUserDetails;
 import com.sparta.roombnb.service.CommentService;

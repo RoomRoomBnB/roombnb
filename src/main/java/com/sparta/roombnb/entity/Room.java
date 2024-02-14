@@ -21,4 +21,5 @@ public class Room {
     @Column(nullable = false)
     private String contentId;
 
+
 }

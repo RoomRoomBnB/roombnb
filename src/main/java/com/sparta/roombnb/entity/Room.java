@@ -16,5 +16,13 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String contentId;
+    @Column(nullable = false)
+    private Long postId;
+
+
+    public Room(Long PostId, String contentId) {
+        this.postId = PostId;
+        this.contentId = contentId;
+    }
 }

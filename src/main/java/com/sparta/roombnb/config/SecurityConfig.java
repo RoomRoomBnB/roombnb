@@ -3,6 +3,7 @@ package com.sparta.roombnb.config;
 import com.sparta.roombnb.jwt.JwtFilter;
 import com.sparta.roombnb.jwt.JwtUtil;
 import com.sparta.roombnb.security.LoginFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,19 +17,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtUtil jwtUtil;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JwtUtil jwtUtil) {
-        this.authenticationConfiguration = authenticationConfiguration;
-        this.jwtUtil = jwtUtil;
-    }
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
+
     //AuthenticationManager Bean 등록
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -39,17 +38,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(auth -> auth.disable())
-            .formLogin(auth -> auth.disable())
-            .httpBasic(auth -> auth.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/test").authenticated()
-                // "/api/users/signup" 경로 정확히 일치하도록 수정
-                .requestMatchers("/login", "/", "/api/users/signup").permitAll()
-                .anyRequest().authenticated())
-            .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
-            .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .csrf(auth -> auth.disable())
+                .formLogin(auth -> auth.disable())
+                .httpBasic(auth -> auth.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/test").authenticated()
+                        // "/api/users/signup" 경로 정확히 일치하도록 수정
+                        .requestMatchers("/login", "/", "/api/users/signup").permitAll()
+                        .anyRequest().authenticated())
+                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
+                .addFilterBefore(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }

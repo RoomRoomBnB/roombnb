@@ -1,14 +1,15 @@
 package com.sparta.roombnb.entity;
 
 import com.sparta.roombnb.dto.PostRequestDto;
+import com.sparta.roombnb.dto.RoomDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.sql.Delete;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,28 +25,43 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String contents;
     @Column(nullable = false)
-    private String room_name;
-    @Column(nullable = false)
     private Long rating;
     @Column(nullable = false)
-    private String username;
+    private String room_title;
+    @Column(nullable = false)
+    private String room_id;
+    @Column(nullable = false)
+    private String room_tel;
+    @Column(nullable = false)
+    private String room_address;
 
-//    @OneToMany
-//    @JoinColumn(name="post_id")
-//    private  List<Comment> commentList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Post(PostRequestDto requestDto, User user, Room room) {
+    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+
+    private List<Bookmark> BookmarkList = new ArrayList<>();
+
+    public Post(PostRequestDto requestDto, User user, RoomDto roomDto) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        this.room_name = room.getName();
         this.rating = requestDto.getRating();
-        this.username = user.getUsername();
+        this.user = user;
+        this.room_title = roomDto.getTitle();
+        this.room_tel = roomDto.getTel();
+        this.room_id = roomDto.getContentId();
+        this.room_address = roomDto.getAddr();
     }
 
-    public void update(PostRequestDto requestDto,Room room) {
+    public void update(PostRequestDto requestDto, RoomDto roomDto) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        this.room_name = room.getName();
         this.rating = requestDto.getRating();
+        this.room_title = roomDto.getTitle();
+        this.room_id = roomDto.getContentId();
     }
 }

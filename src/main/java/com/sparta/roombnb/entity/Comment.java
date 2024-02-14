@@ -20,11 +20,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "comment")
 public class Comment {
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comment_id;
 
-    @Column(nullable = false,length = 200)
+    @Column(nullable = false, length = 200)
     private String content;
 
     @Column(nullable = false)
@@ -38,7 +39,7 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public Comment(CommentRequestDto requestDto){
+    public Comment(CommentRequestDto requestDto) {
         this.content = requestDto.getContent();
         this.createdAt = LocalDateTime.now();
     }

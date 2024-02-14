@@ -16,11 +16,14 @@ public class UserSignupResponseDto {
     private String introduction;
     private String photo;
 
-    public UserSignupResponseDto(User user){
+    public UserSignupResponseDto(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.introduction = user.getIntroduction();
         this.photo = user.getPhoto();
+    }
+
+    public UserSignupResponseDto(String username) {
     }
 }

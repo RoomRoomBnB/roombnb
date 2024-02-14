@@ -7,10 +7,12 @@ import com.sparta.roombnb.entity.Comment;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.CommentRepository;
+import com.sparta.roombnb.repository.PostRepository;
 import jakarta.transaction.Transactional;
-import java.util.concurrent.RejectedExecutionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.RejectedExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,14 +20,16 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostService postService;
+    private final PostRepository postRepository;
 
+    @Transactional
     public CommentResponseDto createComment(CommentRequestDto requestDto, User user) {
-        Post post = postService.getpost(requestDto.getPostId());
+        Post post = postRepository.findById(requestDto.getPostId()).orElseThrow();
         //postId로 post 가져오기
 
         Comment comment = new Comment(requestDto);
         comment.setUser(user);
-        comment.setPost(todo);
+        comment.setPost(post);
 
         commentRepository.save(comment);
 
@@ -34,7 +38,7 @@ public class CommentService {
 
     @Transactional
     public CommentResponseDto updateComment(Long commentId, CommentRequestDto requestDto,
-        User user) {
+                                            User user) {
         Comment comment = getUserComment(commentId, user);
 
         comment.setContent(requestDto.getContent());
@@ -49,7 +53,7 @@ public class CommentService {
 
     private Comment getUserComment(Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
 
         if (!user.getId().equals(comment.getUser().getId())) {
             throw new RejectedExecutionException("작성자만 수정할 수 있습니다.");

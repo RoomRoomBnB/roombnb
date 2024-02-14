@@ -19,7 +19,6 @@ import java.util.concurrent.RejectedExecutionException;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final PostService postService;
     private final PostRepository postRepository;
 
     @Transactional

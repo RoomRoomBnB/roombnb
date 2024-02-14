@@ -1,7 +1,5 @@
 package com.sparta.roombnb.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.roombnb.dto.RoomDto;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.Room;
@@ -9,7 +7,6 @@ import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.RoomRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.RequestEntity;
@@ -38,7 +35,7 @@ public class RoomService {
         this.postRepository = postRepository;
     }
 
-    public List<RoomDto> getRoom(String pageNo) throws JSONException {
+    public List<RoomDto> getRoom(String pageNo){
         URI uri = UriComponentsBuilder
                 .fromUriString("http://apis.data.go.kr/B551011/KorService1")
                 .path("/searchStay1")
@@ -56,10 +53,10 @@ public class RoomService {
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         System.out.println(responseEntity.getBody());
-        return fromJSONtoRoom(responseEntity.getBody());
+        return getRoomDto(responseEntity.getBody());
     }
 
-    public String findRoom(String contentId) throws JSONException {
+    public String findRoom(String contentId){
         URI uri = UriComponentsBuilder
                 .fromUriString("http://apis.data.go.kr/B551011/KorService1")
                 .path("/detailCommon1")
@@ -75,12 +72,11 @@ public class RoomService {
                 .get(uri)
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
-
         System.out.println(responseEntity.getBody());
         return findContentId(responseEntity.getBody());
     }
 
-    public RoomDto searchRoom(String contentId) throws JSONException {
+    public RoomDto searchRoom(String contentId){
         URI uri = UriComponentsBuilder
                 .fromUriString("http://apis.data.go.kr/B551011/KorService1")
                 .path("/detailCommon1")
@@ -102,10 +98,10 @@ public class RoomService {
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         System.out.println(responseEntity.getBody());
-        return fromJSONtoRoom(responseEntity.getBody()).get(0);
+        return getRoomDto(responseEntity.getBody()).get(0);
     }
 
-    public List<RoomDto> fromJSONtoRoom(String responseEntity) throws JSONException {
+    public List<RoomDto> getRoomDto(String responseEntity) {
         JSONObject jsonObject = new JSONObject(responseEntity);
         JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items");
         JSONArray jsonItem  = jsonResponse.getJSONArray("item");
@@ -133,14 +129,13 @@ public class RoomService {
         return roomDtos;
     }
 
-    public String findContentId(String responseEntity) throws JSONException {
+    public String findContentId(String responseEntity){
         JSONObject jsonObject = new JSONObject(responseEntity);
         System.out.println(jsonObject);
 
         JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items");
         JSONArray jsonItem  = jsonResponse.getJSONArray("item");
         JSONObject jsonObject1 = (JSONObject) jsonItem.get(0);
-        System.out.println(jsonObject1);
         String contentId = jsonObject1.getString("contentid");
         return contentId;
     }

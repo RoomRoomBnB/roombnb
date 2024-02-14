@@ -22,4 +22,11 @@ public class RoomController {
         return roomService.getRoom(page);
     }
 
+    @GetMapping("/room/{roomId}")
+    public RoomDto getRoom(@PathVariable String roomId) throws JSONException {
+        return roomService.searchRoom(roomId);
+    }
+
+
+
 }

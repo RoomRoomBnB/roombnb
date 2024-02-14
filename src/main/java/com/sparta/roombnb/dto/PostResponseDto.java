@@ -17,6 +17,7 @@ public class PostResponseDto {
     private String username;
     private String room_id;
     private String room_tel;
+    private String room_addr;
     private LocalDateTime createdAt;
     private List<CommentResponseDto> commentResponseDto;
 
@@ -24,6 +25,7 @@ public class PostResponseDto {
     public PostResponseDto(Post post) {
         this.title = post.getTitle();
         this.room_title = post.getRoom_title();
+        this.room_addr = post.getRoom_address();
         this.rating = post.getRating();
         this.contents = post.getContents();
         this.room_id = post.getRoom_id();

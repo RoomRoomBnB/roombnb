@@ -6,11 +6,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
+import jakarta.transaction.Transactional;
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
@@ -27,20 +28,31 @@ public class JwtUtil {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("username", String.class);
     }
 
-
-
     public Boolean isExpired(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
 
-    public String createJwt(User user) {
+    //코드 중복 줄이기
+    //사용자 정보 Claims에 설정
+
+    private Claims setClaims(User user) {
         Claims claims = Jwts.claims();
-        claims.put("id", user.getId());
-        claims.put("username", user.getUsername());
-        claims.put("email", user.getEmail());
-        claims.put("introduction", user.getIntroduction());
-        claims.put("photo", user.getPhoto());
-        claims.put("password", user.getPassword());
+        Map<String,Object> userInfo = Map.of(
+            "id",user.getId(),
+            "username",user.getUsername(),
+            "email", user.getEmail(),
+            "introduction", user.getIntroduction(),
+            "photo", user.getPhoto(),
+            "role", user.getRole(),
+            "password", user.getPassword()
+        );
+        userInfo.forEach(claims::put);
+        return claims;
+    }
+
+    //jwt생성
+    public String createJwt(User user) {
+        Claims claims = setClaims(user);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -48,7 +60,6 @@ public class JwtUtil {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
-
     public User getUserFromToken(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         User user = new User();

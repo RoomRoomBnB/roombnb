@@ -6,7 +6,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.transaction.Transactional;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
@@ -40,12 +39,9 @@ public class JwtUtil {
         Map<String,Object> userInfo = Map.of(
             "id",user.getId(),
             "username",user.getUsername(),
-            "email", user.getEmail(),
-            "introduction", user.getIntroduction(),
-            "photo", user.getPhoto(),
-            "password", user.getPassword()
+            "email", user.getEmail()
         );
-        userInfo.forEach(claims::put);
+        claims.putAll(userInfo);
         return claims;
     }
 
@@ -65,11 +61,7 @@ public class JwtUtil {
         user.setId(claims.get("id", Long.class));
         user.setUsername(claims.get("username", String.class));
         user.setEmail(claims.get("email", String.class));
-        user.setIntroduction(claims.get("introduction", String.class));
-        user.setPhoto(claims.get("photo", String.class));
-        user.setPassword(claims.get("password", String.class));
         return user;
     }
 }
-//비밀번호랑 다 깔끔하게 들어가게
 //로그인할때 json으로 받아오기 (RequestBody)

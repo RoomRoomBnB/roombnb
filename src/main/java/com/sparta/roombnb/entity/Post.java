@@ -35,10 +35,17 @@ public class Post extends Timestamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(nullable = false)
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.REMOVE)
-    @JoinColumn(name = "room_id", nullable = false, unique = true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "rooms", nullable = false)
     private Room room;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "post")
+
+    private List<Bookmark> BookmarkList = new ArrayList<>();
 
     public Post(PostRequestDto requestDto, User user, RoomDto roomDto) {
         this.title = requestDto.getTitle();
@@ -49,7 +56,7 @@ public class Post extends Timestamped {
         this.room_id = roomDto.getContentId();
     }
 
-    public void update(PostRequestDto requestDto,RoomDto roomDto) {
+    public void update(PostRequestDto requestDto, RoomDto roomDto) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
         this.rating = requestDto.getRating();

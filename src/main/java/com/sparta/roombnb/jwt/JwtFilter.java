@@ -51,13 +51,9 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         //토큰에서 username과 role 획득
-        String username = jwtUtil.getUsername(token);
         //user를 생성하여 값 set
         User user = jwtUtil.getUserFromToken(token);
         System.out.println(user);
-//        user.setUsername(username);
-//        user.setPassword(jwtUtil.getPassword(token));
-//        user.setRole(role);
         //UserDetails에 회원 정보 객체 담기
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
         //스프링 시큐리티 인증 토큰 생성

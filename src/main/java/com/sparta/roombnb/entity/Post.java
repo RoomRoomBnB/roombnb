@@ -1,10 +1,12 @@
 package com.sparta.roombnb.entity;
 
 import com.sparta.roombnb.dto.PostRequestDto;
+import com.sparta.roombnb.dto.RoomDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.sql.Delete;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +26,18 @@ public class Post extends Timestamped {
     private String contents;
     @Column(nullable = false)
     private Long rating;
-
-    @ManyToOne
-    @JoinColumn(name = "room_id")
-    private Room room;
+    @Column(nullable = false)
+    private String room_title;
+    @Column(nullable = false)
+    private String room_id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "rooms", nullable = false)
+    private Room room;
 
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
@@ -41,18 +47,20 @@ public class Post extends Timestamped {
 
     private List<Bookmark> BookmarkList = new ArrayList<>();
 
-    public Post(PostRequestDto requestDto, User user, Room room) {
+    public Post(PostRequestDto requestDto, User user, RoomDto roomDto) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
         this.rating = requestDto.getRating();
-        this.room = room;
         this.user = user;
+        this.room_title = roomDto.getTitle();
+        this.room_id = roomDto.getContentId();
     }
 
-    public void update(PostRequestDto requestDto, Room room) {
+    public void update(PostRequestDto requestDto, RoomDto roomDto) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
-        this.room = room;
         this.rating = requestDto.getRating();
+        this.room_title = roomDto.getTitle();
+        this.room_id = roomDto.getContentId();
     }
 }

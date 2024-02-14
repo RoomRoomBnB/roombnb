@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -19,9 +16,13 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String contentId;
+    @Column(nullable = false)
+    private Long postId;
 
-    @OneToMany
-    @JoinColumn(name = "room_id")
-    private List<Post> PostList = new ArrayList<>();
+
+    public Room(Long PostId, String contentId) {
+        this.postId = PostId;
+        this.contentId = contentId;
+    }
 }

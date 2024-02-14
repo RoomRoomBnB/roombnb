@@ -19,6 +19,7 @@ bin/
 ## 어플리케이션 프로퍼티스
 src/main/resources/application.properties
 ### IntelliJ IDEA ###
+application.properties
 .idea
 *.iws
 *.iml

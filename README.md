@@ -22,6 +22,7 @@ RoomRoomBnB는 숙박업소를 태그하여 사용자들이 별점을 매기고 
 | 기능 | API URL | Method | Request Header | Request | Response | Response header |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | 로그인 | /login | POST |  | { ‘email’: ‘이메일’, password’: ‘비밀번호’ } | {statusCode’: ‘상태코드’, ’msg: ‘서버메세지’, } | Authorization: Bearer + 토큰값 |
+
 ![스크린샷 2024-02-14 오후 8 25 56](https://github.com/RoomRoomBnB/demo-repository/assets/47919911/266412d9-ec92-478b-8f74-8553337f0bde)
 
 

@@ -4,6 +4,7 @@ import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.dto.PostRequestDto;
 import com.sparta.roombnb.security.CustomUserDetails;
 import com.sparta.roombnb.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<CommonResponse<?>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<CommonResponse<?>> createPost(@Valid @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal CustomUserDetails userDetails) {
         return postService.createPost(requestDto, userDetails.getUser());
     }
 
@@ -48,7 +49,7 @@ public class PostController {
 
     //게시글 수정 기능 - 자신이 쓴 게시글만 가능
     @PatchMapping("/posts/{post_id}")
-    public ResponseEntity<CommonResponse<?>> updatePost(@PathVariable Long post_id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<CommonResponse<?>> updatePost(@PathVariable Long post_id,@Valid @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal CustomUserDetails userDetails) {
         return postService.updatePost(post_id, requestDto, userDetails.getUser().getId());
     }
 

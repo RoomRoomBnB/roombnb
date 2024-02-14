@@ -25,7 +25,7 @@ public class UserService {
         String email = requestDto.getEmail();
         String pattern = "[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
 
-        // 회원 중복 확인
+        // 회원이름 중복 확인
         Optional<User> checkUsername = userRepository.findByUsername(username);
         if (checkUsername.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
@@ -35,11 +35,15 @@ public class UserService {
         if (checkEmail.isPresent()) {
             throw new IllegalArgumentException("중복된 Email 입니다.");
         }
+        //이메일 정규표현식
         boolean isValid = validateEmail(email, pattern);
         if (isValid) {
             System.out.println(email + "회원가입 완료");
+            //비밀번호 암호화
             requestDto.setPassword(bCryptPasswordEncoder.encode(password));
+            //유저 객체 생성
             User user = new User(requestDto);
+            //유저 정보 저장
             User saveUser = userRepository.save(user);
             return new UserSignupResponseDto(saveUser);
         } else {

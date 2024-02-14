@@ -24,7 +24,7 @@ public class UserController {
         return "안녕";
     }
 
-    @PostMapping("api/users/signup")
+    @PostMapping("/api/users/signup")
     public ResponseEntity<CommonResponse<UserSignupResponseDto>> singUp(
             @RequestBody UserSignupRequestDto requestDto) {
         UserSignupResponseDto userSignupResponseDto = userService.signUp(requestDto);

@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -20,6 +17,12 @@ public class Room {
     private Long id;
     @Column(nullable = false)
     private String contentId;
+    @Column(nullable = false)
+    private Long postId;
 
 
+    public Room(Long PostId, String contentId) {
+        this.postId = PostId;
+        this.contentId = contentId;
+    }
 }

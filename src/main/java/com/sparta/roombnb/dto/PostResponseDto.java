@@ -19,6 +19,7 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
     private List<CommentResponseDto> commentResponseDto;
 
+
     public PostResponseDto(Post post) {
         this.title = post.getTitle();
         this.room_title = post.getRoom_title();

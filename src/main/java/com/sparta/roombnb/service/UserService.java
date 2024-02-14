@@ -5,11 +5,13 @@ import com.sparta.roombnb.dto.UserSignupRequestDto;
 import com.sparta.roombnb.dto.UserSignupResponseDto;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.UserRepository;
-import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +22,8 @@ public class UserService {
     public UserSignupResponseDto signUp(UserSignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
+        String email = requestDto.getEmail();
+        String pattern = "[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
 
         // 회원 중복 확인
         Optional<User> checkUsername = userRepository.findByUsername(username);
@@ -27,32 +31,30 @@ public class UserService {
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
         }
         // email 중복확인
-        String email = requestDto.getEmail();
         Optional<User> checkEmail = userRepository.findByEmail(email);
         if (checkEmail.isPresent()) {
             throw new IllegalArgumentException("중복된 Email 입니다.");
         }
-        requestDto.setPassword(bCryptPasswordEncoder.encode(password));
-        requestDto.setRole("ROLE_USER");
-        User user = new User(requestDto);
-        User saveUser = userRepository.save(user);
-        return new UserSignupResponseDto(saveUser);
+        boolean isValid = validateEmail(email, pattern);
+        if (isValid) {
+            System.out.println(email + "회원가입 완료");
+            requestDto.setPassword(bCryptPasswordEncoder.encode(password));
+            User user = new User(requestDto);
+            User saveUser = userRepository.save(user);
+            return new UserSignupResponseDto(saveUser);
+        } else {
+            System.out.println(email + "이메일 형식을 확인해주세요");
+        }
+        return null;
     }
 
-//    public LoginResponseDto login(LoginRequestDto requestDto) {
-//        Optional<User> checkEmail = userRepository.findByEmail(requestDto.getEmail());
-//        if (!checkEmail.isPresent()) {
-//            throw new IllegalArgumentException("가입되지 않은 E-Mail 입니다.");
-//        }
-//        User user = checkEmail.get();
-//        // 비밀번호 검증 (비밀번호 암호화 처리를 가정하고 작성)
-//        if (!requestDto.getPassword().equals(user.getPassword())) {
-//            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
-//        }
-//        LoginResponseDto responseDto = new LoginResponseDto(user.getUsername(), user.getEmail());
-//        return responseDto;
-//    }t/post
 
+    //이메일 검증 메서드
+    public static boolean validateEmail(String email, String patternString) {
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 }
 
 

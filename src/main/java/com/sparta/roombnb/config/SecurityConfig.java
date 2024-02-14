@@ -2,6 +2,7 @@ package com.sparta.roombnb.config;
 
 import com.sparta.roombnb.jwt.JwtFilter;
 import com.sparta.roombnb.jwt.JwtUtil;
+import com.sparta.roombnb.security.LoginFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -34,7 +34,6 @@ public class CommentController {
         @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal
     CustomUserDetails userDetails) {
         try {
-
             CommentResponseDto responseDto = commentService.createComment(requestDto,
                 userDetails.getUser());
             return success("댓글이 성공적으로 생성되었습니다.", responseDto);

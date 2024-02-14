@@ -35,10 +35,6 @@ public class Post extends Timestamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "rooms", nullable = false)
-    private Room room;
-
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
 

@@ -41,8 +41,8 @@ public class JwtUtil {
             "id",user.getId(),
             "username",user.getUsername(),
             "email", user.getEmail(),
-            "introduction", user.getIntroduction(),
-            "photo", user.getPhoto(),
+         //   "introduction", user.getIntroduction(),
+           // "photo", user.getPhoto(),
             "password", user.getPassword()
         );
         userInfo.forEach(claims::put);
@@ -65,8 +65,8 @@ public class JwtUtil {
         user.setId(claims.get("id", Long.class));
         user.setUsername(claims.get("username", String.class));
         user.setEmail(claims.get("email", String.class));
-        user.setIntroduction(claims.get("introduction", String.class));
-        user.setPhoto(claims.get("photo", String.class));
+     //   user.setIntroduction(claims.get("introduction", String.class));
+       // user.setPhoto(claims.get("photo", String.class));
         user.setPassword(claims.get("password", String.class));
         return user;
     }

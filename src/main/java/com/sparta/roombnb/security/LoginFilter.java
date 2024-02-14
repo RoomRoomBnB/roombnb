@@ -51,13 +51,24 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     //로그인 실패시 실행하는 메소드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request,
-        HttpServletResponse response, AuthenticationException failed) {
-
+        HttpServletResponse response, AuthenticationException failed) throws IOException {
         //로그인 실패시 401 응답 코드 반환
-        response.setStatus(401);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        //응답 내용 타입 설정
+        response.setContentType("application/json;charset=UTF-8");
+        Map<String, Object> responseData = Map.of(
+            "statusCode", 401,
+            "message", "로그인 실패: " + failed.getMessage());
+        //Map 객체를 JSON 문자열로 변환
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonResponse = objectMapper.writeValueAsString(responseData);
+        // 응답 본문에 JSON 문자열 작성
+        PrintWriter out = response.getWriter();
+        out.print(jsonResponse);
+        out.flush();
     }
-    //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급하면 됨)
 
+    //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급하면 됨)
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
         HttpServletResponse response, FilterChain chain, Authentication authentication)

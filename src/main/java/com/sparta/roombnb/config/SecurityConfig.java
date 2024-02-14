@@ -14,10 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -50,8 +46,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/test").authenticated()
                 // "/api/users/signup" 경로 정확히 일치하도록 수정
-                .requestMatchers("/login", "/", "/v3/api-docs/**","/api/users/signup","/swagger-ui/**","/swagger-ui.html").permitAll()
-                //.requestMatchers( "/","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/login", "/", "/v3/api-docs/**", "/api/users/signup",
+                    "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated())
             .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
             .addFilterBefore(

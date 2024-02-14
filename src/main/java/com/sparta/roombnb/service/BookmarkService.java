@@ -8,14 +8,14 @@ import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.BookmarkRepository;
 import com.sparta.roombnb.repository.PostRepository;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class BookmarkService {
+
     private final BookmarkRepository bookmarkRepository;
     private final PostRepository postRepository;
 
@@ -38,7 +38,8 @@ public class BookmarkService {
 
 
     private Post findPost(Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+        return postRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
     }
 
     private List<Bookmark> findBookmarkByUser(User user) {
@@ -47,6 +48,7 @@ public class BookmarkService {
 
     private Bookmark findBookmarkByPostId(Long postId) {
         Post post = findPost(postId);
-        return bookmarkRepository.findByPost(post).orElseThrow(() -> new IllegalArgumentException("해당 북마크가 존재하지 않습니다."));
+        return bookmarkRepository.findByPost(post)
+            .orElseThrow(() -> new IllegalArgumentException("해당 북마크가 존재하지 않습니다."));
     }
 }

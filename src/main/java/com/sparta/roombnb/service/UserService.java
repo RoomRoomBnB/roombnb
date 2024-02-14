@@ -5,17 +5,17 @@ import com.sparta.roombnb.dto.UserSignupRequestDto;
 import com.sparta.roombnb.dto.UserSignupResponseDto;
 import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.UserRepository;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 

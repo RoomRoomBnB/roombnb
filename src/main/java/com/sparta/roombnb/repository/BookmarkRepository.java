@@ -3,10 +3,9 @@ package com.sparta.roombnb.repository;
 import com.sparta.roombnb.entity.Bookmark;
 import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 

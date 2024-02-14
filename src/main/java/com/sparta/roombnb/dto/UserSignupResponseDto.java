@@ -10,6 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class UserSignupResponseDto {
+
     private Long id;
     private String username;
     private String email;
@@ -24,6 +25,4 @@ public class UserSignupResponseDto {
         this.photo = user.getPhoto();
     }
 
-    public UserSignupResponseDto(String username) {
-    }
 }

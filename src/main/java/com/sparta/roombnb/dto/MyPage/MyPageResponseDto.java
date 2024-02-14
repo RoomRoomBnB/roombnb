@@ -1,5 +1,6 @@
 package com.sparta.roombnb.dto.MyPage;
 
+import com.sparta.roombnb.dto.Bookmark.BookmarkResponseDto;
 import com.sparta.roombnb.entity.Bookmark;
 import com.sparta.roombnb.entity.User;
 import lombok.Getter;

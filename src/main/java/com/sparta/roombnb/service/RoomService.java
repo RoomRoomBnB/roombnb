@@ -75,20 +75,9 @@ public class RoomService {
                 .get(uri)
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
-        String responseBody = responseEntity.getBody();
+
         System.out.println(responseEntity.getBody());
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            // JSON 문자열을 JsonNode로 파싱합니다.
-            JsonNode jsonNode = objectMapper.readTree(responseBody);
-            // 여기서 필요한 JSON 데이터를 가져와서 사용합니다.
-            JsonNode itemsNode = jsonNode.path("response").path("body").path("items").path("contentId");
-            String contentIdValue = itemsNode.toString();
-            return contentIdValue;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return findContentId(responseEntity.getBody());
     }
 
     public RoomDto searchRoom(String contentId) throws JSONException {
@@ -100,7 +89,7 @@ public class RoomService {
                 .queryParam("MobileApp","RoomBnB")
                 .queryParam("_type","json")
                 .queryParam("contentId",contentId)
-                .queryParam("defaultYN","y")
+                .queryParam("defaultYN","Y")
                 .queryParam("firstImageYN","Y")
                 .queryParam("areacodeYN","Y")
                 .queryParam("addrinfoYN","Y")
@@ -112,6 +101,7 @@ public class RoomService {
                 .get(uri)
                 .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+        System.out.println(responseEntity.getBody());
         return fromJSONtoRoom(responseEntity.getBody()).get(0);
     }
 
@@ -123,7 +113,8 @@ public class RoomService {
 
         for (Object item : jsonItem) {
             JSONObject items = (JSONObject)item;
-            List<Room> roomList = roomRepository.findAllByContentId(items.getString("contentId"));
+            String contentId = items.getString("contentid");
+            List<Room> roomList = roomRepository.findAllByContentId(contentId);
             List<Long> postIdList = roomList.stream().map(Room::getPostId).toList();
             List<Post> postList = new ArrayList<>();
             for(Long id: postIdList){
@@ -140,5 +131,17 @@ public class RoomService {
         }
 
         return roomDtos;
+    }
+
+    public String findContentId(String responseEntity) throws JSONException {
+        JSONObject jsonObject = new JSONObject(responseEntity);
+        System.out.println(jsonObject);
+
+        JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items");
+        JSONArray jsonItem  = jsonResponse.getJSONArray("item");
+        JSONObject jsonObject1 = (JSONObject) jsonItem.get(0);
+        System.out.println(jsonObject1);
+        String contentId = jsonObject1.getString("contentid");
+        return contentId;
     }
 }

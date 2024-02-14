@@ -16,6 +16,7 @@ public class PostResponseDto {
     private String contents;
     private String username;
     private String room_id;
+    private String room_tel;
     private LocalDateTime createdAt;
     private List<CommentResponseDto> commentResponseDto;
 
@@ -26,6 +27,7 @@ public class PostResponseDto {
         this.rating = post.getRating();
         this.contents = post.getContents();
         this.room_id = post.getRoom_id();
+        this.room_tel = post.getRoom_tel();
         this.username = post.getUser().getUsername();
         this.createdAt = post.getCreatedAt();
         this.commentResponseDto = post.getCommentList().stream().map(CommentResponseDto::new).toList();

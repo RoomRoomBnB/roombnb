@@ -5,9 +5,6 @@ import com.sparta.roombnb.entity.Post;
 import com.sparta.roombnb.entity.Room;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.RoomRepository;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,7 +13,13 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -27,77 +30,64 @@ public class RoomService {
 
     private final PostRepository postRepository;
 
+    String service = URLDecoder.decode("y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D", StandardCharsets.UTF_8);
+
     public RoomService(RestTemplateBuilder builder, RoomRepository roomRepository,
-        PostRepository postRepository) {
+                       PostRepository postRepository) {
         this.restTemplate = builder.build();
         this.roomRepository = roomRepository;
         this.postRepository = postRepository;
     }
 
-    public List<RoomDto> getRoom(String pageNo) {
-        URI uri = UriComponentsBuilder
-            .fromUriString("http://apis.data.go.kr/B551011/KorService1")
-            .path("/searchStay1")
-            .queryParam("numOfRows", 15)
-            .queryParam("pageNo", pageNo)
-            .queryParam("serviceKey",
-                "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
-            .queryParam("MobileOS", "ETC")
-            .queryParam("MobileApp", "RoomBnB")
-            .queryParam("_type", "json")
-            .encode()
-            .build()
-            .toUri();
+    public List<RoomDto> getRoom(String pageNo) throws URISyntaxException {
+        String uriString = "http://apis.data.go.kr/B551011/KorService1/searchStay1" +
+                "?numOfRows=15" +
+                "&pageNo=" + pageNo +
+                "&serviceKey=" + service +
+                "&MobileOS=ETC" +
+                "&MobileApp=RoomBnB" +
+                "&_type=json";
+        URI uri = URI.create(uriString);
         RequestEntity<Void> requestEntity = RequestEntity
-            .get(uri)
-            .build();
+                .get(uri)
+                .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         System.out.println(responseEntity.getBody());
         return getRoomDto(responseEntity.getBody());
     }
 
     public String findRoom(String contentId) {
-        URI uri = UriComponentsBuilder
-            .fromUriString("http://apis.data.go.kr/B551011/KorService1")
-            .path("/detailCommon1")
-            .queryParam("serviceKey",
-                "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
-            .queryParam("MobileOS", "ETC")
-            .queryParam("MobileApp", "RoomBnB")
-            .queryParam("_type", "json")
-            .queryParam("contentId", contentId)
-            .encode()
-            .build()
-            .toUri();
+        String uriString = "http://apis.data.go.kr/B551011/KorService1/detailCommon1" +
+                "?serviceKey=" + service +
+                "&MobileOS=ETC" +
+                "&MobileApp=RoomBnB" +
+                "&_type=json" +
+                "&contentId=" + contentId;
+        URI uri = URI.create(uriString);
         RequestEntity<Void> requestEntity = RequestEntity
-            .get(uri)
-            .build();
+                .get(uri)
+                .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         System.out.println(responseEntity.getBody());
         return findContentId(responseEntity.getBody());
     }
 
     public RoomDto searchRoom(String contentId) {
-        URI uri = UriComponentsBuilder
-            .fromUriString("http://apis.data.go.kr/B551011/KorService1")
-            .path("/detailCommon1")
-            .queryParam("serviceKey",
-                "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
-            .queryParam("MobileOS", "ETC")
-            .queryParam("MobileApp", "RoomBnB")
-            .queryParam("_type", "json")
-            .queryParam("contentId", contentId)
-            .queryParam("defaultYN", "Y")
-            .queryParam("firstImageYN", "Y")
-            .queryParam("areacodeYN", "Y")
-            .queryParam("addrinfoYN", "Y")
-            .queryParam("overviewYN", "Y")
-            .encode()
-            .build()
-            .toUri();
+        String uriString = "http://apis.data.go.kr/B551011/KorService1/detailCommon1" +
+                "?serviceKey=" + service +
+                "&MobileOS=ETC" +
+                "&MobileApp=RoomBnB" +
+                "&_type=json" +
+                "&contentId=" + contentId +
+                "&defaultYN=Y" +
+                "&firstImageYN=Y" +
+                "&areacodeYN=Y" +
+                "&addrinfoYN=Y" +
+                "&overviewYN=Y";
+        URI uri = URI.create(uriString);
         RequestEntity<Void> requestEntity = RequestEntity
-            .get(uri)
-            .build();
+                .get(uri)
+                .build();
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
         System.out.println(responseEntity.getBody());
         return getRoomDto(responseEntity.getBody()).get(0);
@@ -106,7 +96,7 @@ public class RoomService {
     public List<RoomDto> getRoomDto(String responseEntity) {
         JSONObject jsonObject = new JSONObject(responseEntity);
         JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body")
-            .getJSONObject("items");
+                .getJSONObject("items");
         JSONArray jsonItem = jsonResponse.getJSONArray("item");
         List<RoomDto> roomDtos = new ArrayList<>();
 
@@ -136,7 +126,7 @@ public class RoomService {
         System.out.println(jsonObject);
 
         JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body")
-            .getJSONObject("items");
+                .getJSONObject("items");
         JSONArray jsonItem = jsonResponse.getJSONArray("item");
         JSONObject jsonObject1 = (JSONObject) jsonItem.get(0);
         String contentId = jsonObject1.getString("contentid");

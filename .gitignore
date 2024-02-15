@@ -16,8 +16,10 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
+## 어플리케이션 프로퍼티스
+src/main/resources/application.properties
 ### IntelliJ IDEA ###
+application.properties
 .idea
 *.iws
 *.iml
@@ -35,3 +37,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Ignore application properties
+application.properties

@@ -27,7 +27,7 @@ public class RoomDto {
         this.title =jsonObject.getString("title");
         this.img = jsonObject.getString("firstimage");
         this.tel = jsonObject.getString("tel");
-        this.contentId = jsonObject.getString("contentid"); //I소문자일수도 있음
+        this.contentId = jsonObject.getString("contentid");
         this.ratingAvg = 0L;
         this.postList = null;
     }

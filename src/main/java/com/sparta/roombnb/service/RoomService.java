@@ -6,15 +6,10 @@ import com.sparta.roombnb.repository.RoomRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +20,6 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final PostRepository postRepository;
-
     private final String serviceKey = "fcC99RtPwP2BUSASPlZ7ARus2QsBRo80GqVcbP%2BS2buisRMO7q9T8Zo8nkund3De%2B1YN0VYWelHzh9CHpBeSRQ%3D%3D";
     private final RestTemplate restTemplate;
 
@@ -51,7 +45,7 @@ public class RoomService {
 
         URI uri = URI.create(apiUrl);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
-        System.out.println("그만 " +(responseEntity.getBody()) );
+        System.out.println("return " + (responseEntity.getBody()));
         System.out.println("uri " + uri);
 
         return getRoomDto(responseEntity.getBody());
@@ -72,7 +66,6 @@ public class RoomService {
 
         URI uri = URI.create(apiUrl);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
-
         return findContentId(responseEntity.getBody());
     }
 
@@ -91,7 +84,7 @@ public class RoomService {
         URI uri = URI.create(apiUrl);
         System.out.println(uri);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
-        System.out.println("그만 " +(responseEntity.getBody()) );
+        System.out.println("그만 " + (responseEntity.getBody()));
         return getOneRoomDto(responseEntity.getBody(), contentId);
     }
 
@@ -138,7 +131,7 @@ public class RoomService {
                 String contentId = item.getString("contentid");
                 if (content.equals(contentId)) {
                     roomDto = new RoomDto();
-                    System.out.println("찾은 아이템: " + item.toString());
+                    System.out.println("찾은 아이템: " + item);
                     roomDto.setTitle(item.getString("title"));
                     roomDto.setAddr(item.getString("addr1"));
                     roomDto.setTel(item.getString("tel"));
@@ -148,7 +141,6 @@ public class RoomService {
                     roomDto.setAreacode(item.getString("areacode"));
                     break; // 원하는 아이템을 찾았으므로 루프 중단
                 }
-
 
 
             }
@@ -162,14 +154,12 @@ public class RoomService {
         System.out.println(jsonObject);
 
         JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body")
-            .getJSONObject("items");
+                .getJSONObject("items");
         JSONArray jsonItem = jsonResponse.getJSONArray("item");
         JSONObject jsonObject1 = (JSONObject) jsonItem.get(0);
         String contentId = jsonObject1.getString("contentid");
         return contentId;
     }
-
-
 
 
 }

@@ -1,9 +1,5 @@
 package com.sparta.roombnb.service;
 
-import static com.sparta.roombnb.service.StatusCheck.badRequest;
-import static com.sparta.roombnb.service.StatusCheck.forBidden;
-import static com.sparta.roombnb.service.StatusCheck.success;
-
 import com.sparta.roombnb.dto.CommonResponse;
 import com.sparta.roombnb.dto.Post.PostRequestDto;
 import com.sparta.roombnb.dto.Post.PostResponseDto;
@@ -13,16 +9,17 @@ import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.RoomRepository;
 import com.sparta.roombnb.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
-import org.json.JSONException;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import static com.sparta.roombnb.service.StatusCheck.*;
 
 
 @Service
@@ -84,11 +81,14 @@ public class PostService {
             return badRequest("해당하는 포스트가 없습니다.");
         }
         Optional<User> user = userRepository.findById(userId);
-        if (!post_user.equals(user.get().getId())) {
+
+
+        if (user.get() != post.get().getUser()) {
+
             return forBidden("해당 포스트를 수정할 권한이 없습니다.");
         }
         String contentId = roomService.findRoom(requestDto.getContentId());
-        if(contentId==null){
+        if (contentId == null) {
             return badRequest("해당하는 숙소정보가 없습니다.");
         }
         post.get().update(requestDto, roomService.searchRoom(contentId));
@@ -103,14 +103,12 @@ public class PostService {
             return badRequest("해당하는 포스트가 없습니다.");
         }
         Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        if (user.get() != post.get().getUser()) {
             return forBidden("해당 포스트를 삭제할 권한이 없습니다.");
         }
         postRepository.delete(post.get());
         return success("포스트 삭제에 성공하셨습니다.", "");
     }
-
-
 
 
 }

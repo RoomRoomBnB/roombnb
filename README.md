@@ -23,10 +23,10 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href=""><img src="https://github.com/RoomRoomBnB/roombnb/assets/103111681/37ff3cdb-bd2f-4deb-8152-d4dec7e90d00" width="100px;" alt="https://github.com/RebbitK"/><br /><sub><b> 윤종일 </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/154823447?v=4" width="100px;" alt="https://github.com/RebbitK"/><br /><sub><b> 김형우 </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/61917664?v=4" width="100px;" alt="https://github.com/yejin0901"/><br /><sub><b> 김예진 </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="https://github.com/RoomRoomBnB/roombnb/assets/103111681/506242f6-eb07-4c28-9f00-caaaa3ed42dd" width="100px;" alt="https://github.com/noeyodeel"/><br /><sub><b> 이도연 </b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/RebbitK"><img src="https://github.com/RoomRoomBnB/roombnb/assets/103111681/37ff3cdb-bd2f-4deb-8152-d4dec7e90d00" width="100px;" alt="윤종일"/><br /><sub><b> 윤종일 </b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/RebbitK"><img src="https://avatars.githubusercontent.com/u/154823447?v=4" width="100px;" alt="김형우"/><br /><sub><b> 김형우 </b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/yejin0901"><img src="https://avatars.githubusercontent.com/u/61917664?v=4" width="100px;" alt="김예진"/><br /><sub><b> 김예진 </b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/noeyodeel"><img src="https://github.com/RoomRoomBnB/roombnb/assets/103111681/506242f6-eb07-4c28-9f00-caaaa3ed42dd" width="100px;" alt="이도연"/><br /><sub><b> 이도연 </b></sub></a><br /></td>
     </tr>
   </tbody>
 </table>

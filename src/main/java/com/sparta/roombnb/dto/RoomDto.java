@@ -3,11 +3,13 @@ package com.sparta.roombnb.dto;
 import com.sparta.roombnb.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class RoomDto {
     private  String addr;

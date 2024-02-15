@@ -13,6 +13,8 @@ import com.sparta.roombnb.entity.User;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.RoomRepository;
 import com.sparta.roombnb.repository.UserRepository;
+
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +35,7 @@ public class PostService {
 
     //게시글 작성 기능 - 숙소 정보를 가져와서 대조함
     @Transactional
-    public ResponseEntity<CommonResponse<?>> createPost(PostRequestDto requestDto, User user) throws JSONException {
+    public ResponseEntity<CommonResponse<?>> createPost(PostRequestDto requestDto, User user) throws JSONException, UnsupportedEncodingException {
         String contentId = roomService.findRoom(requestDto.getContentId());
         if (contentId == null) {
             return badRequest("해당하는 숙소정보가 없습니다.");
@@ -75,13 +77,14 @@ public class PostService {
 
     //게시글 수정 기능 - 먼저 입력한 포스트가 있는지 검사 후 포스트 수정 권한을 검사 마지막으로 입력한 숙소의 존재유무를 검사
     @Transactional
-    public ResponseEntity<CommonResponse<?>> updatePost(Long postId, PostRequestDto requestDto, Long userId) throws JSONException {
+    public ResponseEntity<CommonResponse<?>> updatePost(Long postId, PostRequestDto requestDto, Long userId) throws JSONException, UnsupportedEncodingException {
         Optional<Post> post = postRepository.findById(postId);
+        Long post_user = post.get().getUser().getId();
         if (post.isEmpty()) {
             return badRequest("해당하는 포스트가 없습니다.");
         }
         Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
+        if (!post_user.equals(user.get().getId())) {
             return forBidden("해당 포스트를 수정할 권한이 없습니다.");
         }
         String contentId = roomService.findRoom(requestDto.getContentId());

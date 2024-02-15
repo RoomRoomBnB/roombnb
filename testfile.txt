@@ -1,0 +1,46 @@
+"addr": "강원특별자치도 평창군 봉평면 흥정계곡길 72",
+        "areacode": "32",
+        "title": "가을동화펜션",
+        "img": "http://tong.visitkorea.or.kr/cms/resource/93/2376693_image2_1.JPG",
+        "tel": "010-5213-3200",
+        "contentId": "2376711",
+        "ratingAvg": 0,
+        "postList": null
+
+
+    {
+        "addr": "제주특별자치도 서귀포시 법환하로9번길 10",
+        "areacode": "39",
+        "title": "가름게스트하우스",
+        "img": "",
+        "tel": "064-739-4499",
+        "contentId": "1896032",
+        "ratingAvg": 0,
+        "postList": null
+    },
+
+
+{
+    "email" :"aa@naver.com",
+    "password" : "12345",
+    "introduction" : "abc",
+    "photo" : "abc",
+    "username" : "aa"
+   
+}
+
+
+{
+    "title" :"숙소",
+    "contents" : "숙소를 소개합니다",
+    "rating" : "3",
+    "contentId" : "2376711"
+   
+}
+
+{
+    "title" :"여행후기",
+    "contents" : "추운 날씨",
+    "rating" : "4",
+    "contentId" : "2376711"
+}

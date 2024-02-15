@@ -1,134 +1,160 @@
 package com.sparta.roombnb.service;
 
 import com.sparta.roombnb.dto.RoomDto;
-import com.sparta.roombnb.entity.Post;
-import com.sparta.roombnb.entity.Room;
 import com.sparta.roombnb.repository.PostRepository;
 import com.sparta.roombnb.repository.RoomRepository;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.RequestEntity;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
 public class RoomService {
 
-    private final RestTemplate restTemplate;
     private final RoomRepository roomRepository;
-
     private final PostRepository postRepository;
 
-    public RoomService(RestTemplateBuilder builder, RoomRepository roomRepository,
-        PostRepository postRepository) {
-        this.restTemplate = builder.build();
+    private final String serviceKey = "fcC99RtPwP2BUSASPlZ7ARus2QsBRo80GqVcbP%2BS2buisRMO7q9T8Zo8nkund3De%2B1YN0VYWelHzh9CHpBeSRQ%3D%3D";
+    private final RestTemplate restTemplate;
+
+
+    public RoomService(RestTemplate restTemplate, RoomRepository roomRepository, PostRepository postRepository) {
+        this.restTemplate = restTemplate;
         this.roomRepository = roomRepository;
         this.postRepository = postRepository;
     }
 
     public List<RoomDto> getRoom(String pageNo) {
-        URI uri = UriComponentsBuilder
-            .fromUriString("http://apis.data.go.kr/B551011/KorService1")
-            .path("/searchStay1")
-            .queryParam("numOfRows", 15)
-            .queryParam("pageNo", pageNo)
-            .queryParam("serviceKey",
-                "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
-            .queryParam("MobileOS", "ETC")
-            .queryParam("MobileApp", "RoomBnB")
-            .queryParam("_type", "json")
-            .encode()
-            .build()
-            .toUri();
-        RequestEntity<Void> requestEntity = RequestEntity
-            .get(uri)
-            .build();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
-        System.out.println(responseEntity.getBody());
+        String serviceKey = "fcC99RtPwP2BUSASPlZ7ARus2QsBRo80GqVcbP%2BS2buisRMO7q9T8Zo8nkund3De%2B1YN0VYWelHzh9CHpBeSRQ%3D%3D";
+        int numOfRows = 5;
+        String mobileOS = "ETC";
+        String mobileApp = "AppTest";
+        String type = "json";
+        String listYN = "Y";
+        String arrange = "A";
+
+
+        String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/searchStay1?serviceKey=%s&numOfRows=%d&pageNo=%s&MobileOS=%s&MobileApp=%s&_type=%s&listYN=%s&arrange=%s",
+                serviceKey, numOfRows, pageNo, mobileOS, mobileApp, type, listYN, arrange);
+
+        URI uri = URI.create(apiUrl);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
+        System.out.println("그만 " +(responseEntity.getBody()) );
+        System.out.println("uri " + uri);
+
         return getRoomDto(responseEntity.getBody());
     }
 
     public String findRoom(String contentId) {
-        URI uri = UriComponentsBuilder
-            .fromUriString("http://apis.data.go.kr/B551011/KorService1")
-            .path("/detailCommon1")
-            .queryParam("serviceKey",
-                "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
-            .queryParam("MobileOS", "ETC")
-            .queryParam("MobileApp", "RoomBnB")
-            .queryParam("_type", "json")
-            .queryParam("contentId", contentId)
-            .encode()
-            .build()
-            .toUri();
-        RequestEntity<Void> requestEntity = RequestEntity
-            .get(uri)
-            .build();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
-        System.out.println(responseEntity.getBody());
+        String serviceKey = "fcC99RtPwP2BUSASPlZ7ARus2QsBRo80GqVcbP%2BS2buisRMO7q9T8Zo8nkund3De%2B1YN0VYWelHzh9CHpBeSRQ%3D%3D";
+        int numOfRows = 10;
+        String mobileOS = "ETC";
+        String mobileApp = "AppTest";
+        String type = "json";
+        String listYN = "Y";
+        String arrange = "A";
+
+
+        String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/searchStay1?serviceKey=%s&numOfRows=%d&MobileOS=%s&MobileApp=%s&_type=%s&listYN=%s&arrange=%s",
+                serviceKey, numOfRows, mobileOS, mobileApp, type, listYN, arrange);
+
+        URI uri = URI.create(apiUrl);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
+
         return findContentId(responseEntity.getBody());
     }
 
     public RoomDto searchRoom(String contentId) {
-        URI uri = UriComponentsBuilder
-            .fromUriString("http://apis.data.go.kr/B551011/KorService1")
-            .path("/detailCommon1")
-            .queryParam("serviceKey",
-                "y4I41SqhA6sAXfVEK1nlJhhVpNX%2Fp0VhpSDvrkDhkv3jT5MPa3CMhl%2BmyeHE2%2BLZB3Jldhx22L1fcKCfEqmppA%3D%3D")
-            .queryParam("MobileOS", "ETC")
-            .queryParam("MobileApp", "RoomBnB")
-            .queryParam("_type", "json")
-            .queryParam("contentId", contentId)
-            .queryParam("defaultYN", "Y")
-            .queryParam("firstImageYN", "Y")
-            .queryParam("areacodeYN", "Y")
-            .queryParam("addrinfoYN", "Y")
-            .queryParam("overviewYN", "Y")
-            .encode()
-            .build()
-            .toUri();
-        RequestEntity<Void> requestEntity = RequestEntity
-            .get(uri)
-            .build();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
-        System.out.println(responseEntity.getBody());
-        return getRoomDto(responseEntity.getBody()).get(0);
+        String serviceKey = "fcC99RtPwP2BUSASPlZ7ARus2QsBRo80GqVcbP%2BS2buisRMO7q9T8Zo8nkund3De%2B1YN0VYWelHzh9CHpBeSRQ%3D%3D";
+        int numOfRows = 1000;
+        String mobileOS = "ETC";
+        String mobileApp = "AppTest";
+        String type = "json";
+        String listYN = "Y";
+        String arrange = "A";
+
+
+        String apiUrl = String.format("https://apis.data.go.kr/B551011/KorService1/searchStay1?serviceKey=%s&numOfRows=%d&MobileOS=%s&MobileApp=%s&_type=%s&listYN=%s&arrange=%s",
+                serviceKey, numOfRows, mobileOS, mobileApp, type, listYN, arrange);
+        URI uri = URI.create(apiUrl);
+        System.out.println(uri);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
+        System.out.println("그만 " +(responseEntity.getBody()) );
+        return getOneRoomDto(responseEntity.getBody(), contentId);
     }
 
     public List<RoomDto> getRoomDto(String responseEntity) {
-        JSONObject jsonObject = new JSONObject(responseEntity);
-        JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body")
-            .getJSONObject("items");
-        JSONArray jsonItem = jsonResponse.getJSONArray("item");
         List<RoomDto> roomDtos = new ArrayList<>();
 
-        for (Object item : jsonItem) {
-            JSONObject items = (JSONObject) item;
-            String contentId = items.getString("contentid");
-            List<Room> roomList = roomRepository.findAllByContentId(contentId);
-            List<Long> postIdList = roomList.stream().map(Room::getPostId).toList();
-            List<Post> postList = new ArrayList<>();
-            for (Long id : postIdList) {
-                postList.add(postRepository.findById(id).get());
-            }
-            if (postList.isEmpty()) {
-                RoomDto roomDto = new RoomDto(items);
-                roomDtos.add(roomDto);
-            } else {
-                RoomDto roomDto = new RoomDto(items, postList);
+        JSONObject jsonObject = new JSONObject(responseEntity);
+        JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items");
+        JSONArray jsonItem = jsonResponse.optJSONArray("item");
+
+        if (jsonItem != null) {
+            for (int i = 0; i < jsonItem.length(); i++) {
+                JSONObject item = jsonItem.getJSONObject(i);
+                RoomDto roomDto = new RoomDto();
+                System.out.println(item);
+                roomDto.setTitle(item.getString("title"));
+                roomDto.setAddr(item.getString("addr1"));
+                roomDto.setContentId(item.getString("contentid"));
+                roomDto.setTel(item.getString("tel"));
+                roomDto.setRatingAvg(0L);
+                roomDto.setImg(item.getString("firstimage"));
+                roomDto.setAreacode(item.getString("areacode"));
+
                 roomDtos.add(roomDto);
             }
         }
 
         return roomDtos;
+    }
+
+    public RoomDto getOneRoomDto(String responseEntity, String content) {
+        RoomDto roomDto = null;
+
+        JSONObject jsonObject = new JSONObject(responseEntity);
+        JSONObject jsonResponse = jsonObject.getJSONObject("response").getJSONObject("body").getJSONObject("items");
+        JSONArray jsonItem = jsonResponse.optJSONArray("item");
+
+        if (jsonItem != null) {
+//            RoomDto roomDto = null;
+            for (int i = 0; i < jsonItem.length(); i++) {
+                JSONObject item = jsonItem.getJSONObject(i);
+                roomDto = new RoomDto();
+                System.out.println(item);
+                String contentId = item.getString("contentid");
+                if (content.equals(contentId)) {
+                    roomDto = new RoomDto();
+                    System.out.println("찾은 아이템: " + item.toString());
+                    roomDto.setTitle(item.getString("title"));
+                    roomDto.setAddr(item.getString("addr1"));
+                    roomDto.setTel(item.getString("tel"));
+                    roomDto.setRatingAvg(0L);
+                    roomDto.setImg(item.getString("firstimage"));
+                    roomDto.setContentId(item.getString("contentid"));
+                    roomDto.setAreacode(item.getString("areacode"));
+                    break; // 원하는 아이템을 찾았으므로 루프 중단
+                }
+
+
+
+            }
+        }
+
+        return roomDto;
     }
 
     public String findContentId(String responseEntity) {
@@ -142,4 +168,8 @@ public class RoomService {
         String contentId = jsonObject1.getString("contentid");
         return contentId;
     }
+
+
+
+
 }

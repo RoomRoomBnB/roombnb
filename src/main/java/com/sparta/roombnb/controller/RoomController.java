@@ -4,6 +4,8 @@ import com.sparta.roombnb.dto.RoomDto;
 import com.sparta.roombnb.service.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import java.net.URISyntaxException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,7 @@ public class RoomController {
 
     @Operation(summary = "숙소 조회", description = "숙소 조회")
     @GetMapping("/rooms/{page}")
-    public List<RoomDto> searchRooms(@PathVariable String page) throws JSONException {
+    public List<RoomDto> searchRooms(@PathVariable String page) throws JSONException, URISyntaxException {
         return roomService.getRoom(page);
     }
 

@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.UnsupportedEncodingException;
 
 @Tag(name = "Post API", description = "게시글 API")
 @Slf4j
@@ -33,7 +36,7 @@ public class PostController {
     @PostMapping("/posts")
     public ResponseEntity<CommonResponse<?>> createPost(
         @Valid @RequestBody PostRequestDto requestDto,
-        @AuthenticationPrincipal CustomUserDetails userDetails) {
+        @AuthenticationPrincipal CustomUserDetails userDetails) throws JSONException, UnsupportedEncodingException {
         return postService.createPost(requestDto, userDetails.getUser());
     }
 
@@ -63,7 +66,7 @@ public class PostController {
     @PatchMapping("/posts/{post_id}")
     public ResponseEntity<CommonResponse<?>> updatePost(@PathVariable Long post_id,
         @Valid @RequestBody PostRequestDto requestDto,
-        @AuthenticationPrincipal CustomUserDetails userDetails) {
+        @AuthenticationPrincipal CustomUserDetails userDetails) throws JSONException, UnsupportedEncodingException {
         return postService.updatePost(post_id, requestDto, userDetails.getUser().getId());
     }
 
